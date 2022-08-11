@@ -10,14 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:error-recorder.helloWorld"
+    "*"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "error-recorder.helloWorld",
-        "title": "Hello World"
+        "command": "error-recorder.errorRecorder",
+        "title": "errorRecorder"
       }
     ]
   },
