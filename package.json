@@ -26,7 +26,7 @@
       ]
     },
     "views": {
-      "vsinder-sidebar-view": [
+      "errorRecorder-sidebar-view": [
         {
           "type": "webview",
           "id": "errorRecorder-sidebar",
