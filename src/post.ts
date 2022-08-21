@@ -12,7 +12,6 @@ export async function postErrorInfo() {
   // サーバーの送信先URL
   const postUrl: string = 'https://api/v1/posts';
 
-
   // convert errorcode to json
   const errorCodeToJson = (errorCode: string) => {
     try {
@@ -41,4 +40,6 @@ export async function postErrorInfo() {
   .catch(err => {
     console.log("err:", err);
   });
+
+  vscode.window.showInformationMessage('hello post');
 };

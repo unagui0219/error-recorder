@@ -10,14 +10,49 @@
     "Other"
   ],
   "activationEvents": [
+    "onView:errorRecorder-sidebar",
+    "onCommand:error-recorder.postError",
     "*"
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "errorRecorder-sidebar-view",
+          "title": "ErrorRecorder",
+          "icon": "media/checklist.svg"
+        }
+      ]
+    },
+    "views": {
+      "vsinder-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "errorRecorder-sidebar",
+          "name": "ErrorRecorder",
+          "icon": "media/checklist.svg",
+          "contextualTitle": "ErrorRecorder"
+        }
+      ],
+      "explorer": [
+        {
+          "id": "nodeDependencies",
+          "name": "ErrorRecorder",
+          "when": "workspaceHasPackageJSON",
+          "icon": "media/dep.svg",
+          "contextualTitle": "Package Explorer"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "error-recorder.errorRecorder",
         "title": "errorRecorder"
+      },
+      {
+        "command": "error-recorder.postError",
+        "title": "postErrorCode"
       }
     ]
   },
