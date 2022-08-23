@@ -12,15 +12,6 @@ export async function postErrorInfo() {
   // サーバーの送信先URL
   const postUrl: string = 'https://api/v1/posts';
 
-  // convert errorcode to json
-  const errorCodeToJson = (errorCode: string) => {
-    try {
-      return JSON.parse(errorCode);
-    } catch (e) {
-      console.log(e);
-    };
-  };
-
   // send data to rails server ← <memo: onda>Quick Pickで入力した値を格納したい
   const data: PostData = {
     errorTitle: 'Error',
@@ -29,7 +20,11 @@ export async function postErrorInfo() {
     lang: 'Lang'
   };
 
-  // リスト(Quick Pick)？で入力したエラーデータをサーバーへ送信
+  // convert postData to json
+  function errorCodeToJson(obj: PostData) {
+    return JSON.stringify(obj);
+  };
+
   await axios.post(
     postUrl,
     data
@@ -41,5 +36,5 @@ export async function postErrorInfo() {
     console.log("err:", err);
   });
 
-  vscode.window.showInformationMessage('hello post');
+  vscode.window.showInformationMessage(errorCodeToJson(data));
 };

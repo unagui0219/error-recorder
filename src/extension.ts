@@ -1,7 +1,6 @@
-import axios from 'axios';
 import * as vscode from 'vscode';
 import { SidebarProvider } from "./SidebarProvider";
-import { PostData, postErrorInfo } from './post';
+import { postErrorInfo } from './post';
 
 // commands
 export const extensionCommandId: string = 'error-recorder.errorRecorder';

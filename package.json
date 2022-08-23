@@ -34,15 +34,6 @@
           "icon": "media/checklist.svg",
           "contextualTitle": "ErrorRecorder"
         }
-      ],
-      "explorer": [
-        {
-          "id": "nodeDependencies",
-          "name": "ErrorRecorder",
-          "when": "workspaceHasPackageJSON",
-          "icon": "media/dep.svg",
-          "contextualTitle": "Package Explorer"
-        }
       ]
     },
     "commands": [
