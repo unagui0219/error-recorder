@@ -124,6 +124,9 @@ export class ViewIndexPanel {
             "media",
             "vscode.css"
         ));
+        const stylesCustomUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this._extensionUri, "out/compiled", "ViewIndex.css")
+        );
 
         // // Use a nonce to only allow specific scripts to be run
         const nonce = getNonce();
@@ -132,11 +135,11 @@ export class ViewIndexPanel {
 			<html lang="ja">
 			<head>
 				<meta charset="UTF-8">
-                <meta http-equiv="Content-Security-Policy" content=" img-src https: data:; style-src 'unsafe-inline' ${webview.cspSource
-            }; script-src 'nonce-${nonce}';">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="Content-Security-Policy" content=" img-src https: data:; style-src 'unsafe-inline' ${webview.cspSource}; script-src 'nonce-${nonce}';">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link href="${stylesResetUri}" rel="stylesheet">
                 <link href="${stylesMainUri}" rel="stylesheet">
+                <link href="${stylesCustomUri}" rel="stylesheet">
                 <script nonce="${nonce}">
                 </script>
 			</head>

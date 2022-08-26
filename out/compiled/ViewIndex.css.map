@@ -1,8 +1,12 @@
 {
   "version": 3,
   "file": "ViewIndex.css",
-  "sources": [],
-  "sourcesContent": [],
+  "sources": [
+    "ViewIndex.svelte"
+  ],
+  "sourcesContent": [
+    "<script lang=\"ts\">\"use strict\";\nlet users = [\n    {\n        title: \"Taro2\",\n        solution_code: \"rails s\",\n        source_code: \"dkamkldnjwbdbnejbfheabjkndjkan\",\n    },\n    {\n        title: \"Hana\",\n        solution_code: \"raaaaaaaaaaamkmkmkmkmknfelwjfkjhewuinfuewnunfinmaklnfiewnahfunkjanklfjnasijfiwjnoi\",\n        source_code: \"dkamkldnjwbdbnejbfheabjkndjkan\",\n    },\n    {\n        title: \"Ken\",\n        solution_code: \"daidjkabhjfbewjbfhjlbsfbdksbghv dfhbfkbewulhfijebhjfeiuajhkldfsnkjnfksmfknjeskbfm nmambfjkbneasnm jkueahu\",\n        source_code: \"dkamkldnjwbdbnejbfheabjkndjkan\",\n    },\n];\n</script>\n\n{#each users as user}\n    <div class=\"post-box\">\n        <div class=\"post-box_content\">\n            <h2 class=\"title\">{user.title}</h2>\n            <p><span>解決策：</span>{user.solution_code}</p>\n        </div>\n        <div class=\"post-box_button_box\">\n            <button class=\"big-btn\">詳細を見る</button>\n            <button>編集</button>\n            <button>削除</button>\n        </div>\n    </div>\n{/each}\n\n<style>\n    .post-box {\n        border: 2px solid white !important;\n        padding: 1rem;\n        margin-bottom: 2rem;\n    }\n    .post-box_content span {\n        font-weight: bold;\n    }\n    .post-box_button_box {\n        text-align: right;\n    }\n    .post-box_button_box button {\n        width: 3rem;\n        margin-right: 1rem;\n    }\n    .big-btn {\n        width: 6rem !important;\n    }\n    h2 {\n        font-size: 2rem;\n    }\n</style>\n"
+  ],
   "names": [],
-  "mappings": ""
+  "mappings": "AAmCI,SAAS,4BAAC,CAAC,AACP,MAAM,CAAE,GAAG,CAAC,KAAK,CAAC,KAAK,CAAC,UAAU,CAClC,OAAO,CAAE,IAAI,CACb,aAAa,CAAE,IAAI,AACvB,CAAC,AACD,+BAAiB,CAAC,IAAI,cAAC,CAAC,AACpB,WAAW,CAAE,IAAI,AACrB,CAAC,AACD,oBAAoB,4BAAC,CAAC,AAClB,UAAU,CAAE,KAAK,AACrB,CAAC,AACD,kCAAoB,CAAC,MAAM,cAAC,CAAC,AACzB,KAAK,CAAE,IAAI,CACX,YAAY,CAAE,IAAI,AACtB,CAAC,AACD,QAAQ,4BAAC,CAAC,AACN,KAAK,CAAE,IAAI,CAAC,UAAU,AAC1B,CAAC,AACD,EAAE,4BAAC,CAAC,AACA,SAAS,CAAE,IAAI,AACnB,CAAC"
 }
