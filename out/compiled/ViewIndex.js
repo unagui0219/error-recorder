@@ -354,7 +354,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (21:0) {#each users as user}
+    // (26:0) {#each users as user}
     function create_each_block(ctx) {
     	let div2;
     	let div0;
@@ -397,23 +397,23 @@ var app = (function () {
     			button2 = element("button");
     			button2.textContent = "削除";
     			t10 = space();
-    			attr_dev(h2, "class", "title svelte-2uvgbl");
-    			add_location(h2, file, 23, 12, 708);
-    			attr_dev(span, "class", "svelte-2uvgbl");
-    			add_location(span, file, 24, 15, 759);
-    			add_location(p, file, 24, 12, 756);
-    			attr_dev(div0, "class", "post-box_content svelte-2uvgbl");
-    			add_location(div0, file, 22, 8, 665);
-    			attr_dev(button0, "class", "big-btn svelte-2uvgbl");
-    			add_location(button0, file, 27, 12, 870);
-    			attr_dev(button1, "class", "svelte-2uvgbl");
-    			add_location(button1, file, 28, 12, 921);
-    			attr_dev(button2, "class", "svelte-2uvgbl");
-    			add_location(button2, file, 29, 12, 953);
-    			attr_dev(div1, "class", "post-box_button_box svelte-2uvgbl");
-    			add_location(div1, file, 26, 8, 824);
-    			attr_dev(div2, "class", "post-box svelte-2uvgbl");
-    			add_location(div2, file, 21, 4, 634);
+    			attr_dev(h2, "class", "title svelte-1iwqbf");
+    			add_location(h2, file, 28, 12, 837);
+    			attr_dev(span, "class", "svelte-1iwqbf");
+    			add_location(span, file, 29, 15, 888);
+    			add_location(p, file, 29, 12, 885);
+    			attr_dev(div0, "class", "post-box_content svelte-1iwqbf");
+    			add_location(div0, file, 27, 8, 794);
+    			attr_dev(button0, "class", "big-btn svelte-1iwqbf");
+    			add_location(button0, file, 32, 12, 999);
+    			attr_dev(button1, "class", "svelte-1iwqbf");
+    			add_location(button1, file, 33, 12, 1050);
+    			attr_dev(button2, "class", "delete-btn svelte-1iwqbf");
+    			add_location(button2, file, 34, 12, 1082);
+    			attr_dev(div1, "class", "post-box_button_box svelte-1iwqbf");
+    			add_location(div1, file, 31, 8, 953);
+    			attr_dev(div2, "class", "post-box svelte-1iwqbf");
+    			add_location(div2, file, 26, 4, 763);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -443,7 +443,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(21:0) {#each users as user}",
+    		source: "(26:0) {#each users as user}",
     		ctx
     	});
 
@@ -451,6 +451,11 @@ var app = (function () {
     }
 
     function create_fragment(ctx) {
+    	let div;
+    	let h1;
+    	let t1;
+    	let hr;
+    	let t2;
     	let each_1_anchor;
     	let each_value = /*users*/ ctx[0];
     	validate_each_argument(each_value);
@@ -462,16 +467,33 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			div = element("div");
+    			h1 = element("h1");
+    			h1.textContent = "Error Recorder List";
+    			t1 = space();
+    			hr = element("hr");
+    			t2 = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			add_location(h1, file, 21, 4, 689);
+    			add_location(hr, file, 22, 4, 722);
+    			attr_dev(div, "class", "title-box svelte-1iwqbf");
+    			add_location(div, file, 20, 0, 661);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			append_dev(div, h1);
+    			append_dev(div, t1);
+    			append_dev(div, hr);
+    			insert_dev(target, t2, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -506,6 +528,8 @@ var app = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(t2);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -528,18 +552,18 @@ var app = (function () {
 
     	let users = [
     		{
-    			title: "Taro2",
+    			title: " [!] (plugin svelte) ParseError: Unexpected token",
     			solution_code: "rails s",
     			source_code: "dkamkldnjwbdbnejbfheabjkndjkan"
     		},
     		{
     			title: "Hana",
-    			solution_code: "raaaaaaaaaaamkmkmkmkmknfelwjfkjhewuinfuewnunfinmaklnfiewnahfunkjanklfjnasijfiwjnoi",
+    			solution_code: "raaaaaaaaaaam kmkmkmkmk nfelwjfkjhewuinfuewnu nfinmaklnfiewnahf unkjanklfjnas ijfiwjnoi",
     			source_code: "dkamkldnjwbdbnejbfheabjkndjkan"
     		},
     		{
     			title: "Ken",
-    			solution_code: "daidjkabhjfbewjbfhjlbsfbdksbghv dfhbfkbewulhfijebhjfeiuajhkldfsnkjnfksmfknjeskbfm nmambfjkbneasnm jkueahu",
+    			solution_code: "daidjkabhjf bewjbfhjlbsfbdksbgh v dfhbfkbewulhfijebhjfei uajhkldfsnkjnfksm fknjeskbfm nmambfjkbneasnm jkueahu",
     			source_code: "dkamkldnjwbdbnejbfheabjkndjkan"
     		}
     	];
