@@ -397,22 +397,22 @@ var app = (function () {
     			button2 = element("button");
     			button2.textContent = "削除";
     			t10 = space();
-    			attr_dev(h2, "class", "title svelte-1iwqbf");
+    			attr_dev(h2, "class", "title svelte-5qhp2z");
     			add_location(h2, file, 28, 12, 837);
-    			attr_dev(span, "class", "svelte-1iwqbf");
+    			attr_dev(span, "class", "svelte-5qhp2z");
     			add_location(span, file, 29, 15, 888);
     			add_location(p, file, 29, 12, 885);
-    			attr_dev(div0, "class", "post-box_content svelte-1iwqbf");
+    			attr_dev(div0, "class", "post-box_content svelte-5qhp2z");
     			add_location(div0, file, 27, 8, 794);
-    			attr_dev(button0, "class", "big-btn svelte-1iwqbf");
+    			attr_dev(button0, "class", "big-btn svelte-5qhp2z");
     			add_location(button0, file, 32, 12, 999);
-    			attr_dev(button1, "class", "svelte-1iwqbf");
+    			attr_dev(button1, "class", "svelte-5qhp2z");
     			add_location(button1, file, 33, 12, 1050);
-    			attr_dev(button2, "class", "delete-btn svelte-1iwqbf");
+    			attr_dev(button2, "class", "delete-btn svelte-5qhp2z");
     			add_location(button2, file, 34, 12, 1082);
-    			attr_dev(div1, "class", "post-box_button_box svelte-1iwqbf");
+    			attr_dev(div1, "class", "post-box_button_box svelte-5qhp2z");
     			add_location(div1, file, 31, 8, 953);
-    			attr_dev(div2, "class", "post-box svelte-1iwqbf");
+    			attr_dev(div2, "class", "post-box svelte-5qhp2z");
     			add_location(div2, file, 26, 4, 763);
     		},
     		m: function mount(target, anchor) {
@@ -481,7 +481,7 @@ var app = (function () {
     			each_1_anchor = empty();
     			add_location(h1, file, 21, 4, 689);
     			add_location(hr, file, 22, 4, 722);
-    			attr_dev(div, "class", "title-box svelte-1iwqbf");
+    			attr_dev(div, "class", "title-box svelte-5qhp2z");
     			add_location(div, file, 20, 0, 661);
     		},
     		l: function claim(nodes) {

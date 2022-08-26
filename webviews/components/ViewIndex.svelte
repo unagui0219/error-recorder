@@ -71,6 +71,13 @@
         width: 6rem !important;
     }
     .delete-btn {
-        background-color: #c7254e !important;
+        background-color: #c7254f !important;
+    }
+    .delete-btn:focus {
+        outline-color: #c7254f !important;
+    }
+    .delete-btn:hover {
+        cursor: pointer;
+        background: #d7254f !important;
     }
 </style>
