@@ -52,7 +52,7 @@
       },
       {
         "command": "error-recorder.index",
-        "title": "Index"
+        "title": "errorRecorderIndex"
       },
       {
         "command": "error-recorder.postError",
