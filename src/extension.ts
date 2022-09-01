@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Index Webview
 	context.subscriptions.push(
-		vscode.commands.registerCommand("error-recorder.index", () => {
+		vscode.commands.registerCommand("errorRecorder.index", () => {
 			ViewIndexPanel.createOrShow(context.extensionUri);
 		})
 	);
@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const sidebarProvider = new SidebarProvider(context.extensionUri);
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(
-			"errorRecorder-sidebar",
+			"errorRecorderSidebar",
 			sidebarProvider
 		)
 	);
