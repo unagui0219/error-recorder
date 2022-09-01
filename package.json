@@ -12,8 +12,7 @@
   "activationEvents": [
     "onView:errorRecorder-sidebar",
     "onCommand:error-recorder.postError",
-    "onCommand:error-recorder.saveStorage",
-    "*"
+    "onCommand:error-recorder.saveStorage"
   ],
   "main": "./dist/extension.js",
   "contributes": {

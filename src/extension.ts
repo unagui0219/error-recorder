@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { SidebarProvider } from "./SidebarProvider";
 import { postErrorInfo } from './post';
-import { saveStorage } from './localStorageService';
+import { saveStorage } from './globalState';
 
 // commands
 export const extensionCommandId: string = 'error-recorder.errorRecorder';

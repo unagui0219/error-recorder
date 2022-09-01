@@ -1,19 +1,18 @@
 import * as vscode from 'vscode';
 import { Memento } from "vscode";
+import { isEmptyObject } from './common/objectTypes';
 import { onUnexpectedError } from './common/errors';
-
 
 export type MementoObject = { [key: string]: any };
 
 export class LocalStorageService {
 
-  private static readonly applicationMementos = new Map<string, ScopedMemento>();
-  private static readonly COMMON_PREFIX = 'memento/';
+  private static readonly commonPrefix = 'memento/';
 	private readonly id: string;
 
-  constructor(id: string, private storageService: IStorageService) {
-		this.id = LocalStorageService.COMMON_PREFIX + id;
-	}
+  constructor(id: string, private context: vscode.ExtensionContext) {
+		this.id = LocalStorageService.commonPrefix + id;
+	};
 
   // StorageScope.APPLICATION: {
   //   let applicationMemento = Memento.applicationMementos.get(this.id);
@@ -66,7 +65,10 @@ export async function saveStorage(context: vscode.ExtensionContext) {
 };
 
 function stateManager(context: vscode.ExtensionContext) {
+
   const globalState = context.globalState;
+  // const mementoObj: MementoObject;
+
   const storageDefaultData: MementoObject = {
     id: {},
     title: {}
@@ -92,17 +94,18 @@ function stateManager(context: vscode.ExtensionContext) {
 class ScopedMemento {
 
 	private readonly mementoObj: MementoObject;
+  // private readonly globalState = context.globalState;
 
-	constructor(private id: string, private scope: StorageScope, private target: StorageTarget, private storageService: IStorageService) {
+	constructor(private id: string, private data: string, private context: vscode.ExtensionContext) {
 		this.mementoObj = this.load();
 	}
 
 	getMemento(): MementoObject {
 		return this.mementoObj;
-	}
+	};
 
 	private load(): MementoObject {
-		const memento = this.storageService.get(this.id, this.scope);
+		const memento: string | undefined = this.context.globalState.get(this.id);
 		if (memento) {
 			try {
 				return JSON.parse(memento);
@@ -111,45 +114,18 @@ class ScopedMemento {
 				// from memento parsing exceptions. Log the contents
 				// to diagnose further
 				// https://github.com/microsoft/vscode/issues/102251
-				onUnexpectedError(`[memento]: failed to parse contents: ${error} (id: ${this.id}, scope: ${this.scope}, contents: ${memento})`);
-			}
-		}
+				onUnexpectedError(`[memento]: failed to parse contents: ${error} (id: ${this.id}, contents: ${memento})`);
+			};
+		};
 
 		return {};
-	}
-
-	save(): void {
-		if (!isEmptyObject(this.mementoObj)) {
-			this.storageService.store(this.id, JSON.stringify(this.mementoObj), this.scope, this.target);
-		} else {
-			this.storageService.remove(this.id, this.scope);
-		};
 	};
-};
 
-export function isObject(obj: unknown): obj is Object {
-	// The method can't do a type cast since there are type (like strings) which
-	// are subclasses of any put not positvely matched by the function. Hence type
-	// narrowing results in wrong results.
-	return typeof obj === 'object'
-		&& obj !== null
-		&& !Array.isArray(obj)
-		&& !(obj instanceof RegExp)
-		&& !(obj instanceof Date);
-}
-
-const hasOwnProperty = Object.prototype.hasOwnProperty;
-
-export function isEmptyObject(obj: unknown): obj is object {
-	if (!isObject(obj)) {
-		return false;
-	}
-
-	for (const key in obj) {
-		if (hasOwnProperty.call(obj, key)) {
-			return false;
-		}
-	}
-
-	return true;
+	// save(): void {
+	// 	if (!isEmptyObject(this.mementoObj)) {
+	// 		this.data.store(this.id, JSON.stringify(this.mementoObj));
+	// 	} else {
+	// 		this.data.remove(this.id);
+	// 	};
+	// };
 };
