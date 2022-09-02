@@ -13,7 +13,6 @@ type PostMementObj = {
   lang: string;
 };
 
-
 export async function saveStorage(context: vscode.ExtensionContext) {
   console.log(context);
 };
