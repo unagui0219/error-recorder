@@ -3,10 +3,12 @@ import * as vscode from 'vscode';
 import { SidebarProvider } from "./SidebarProvider";
 import { PostData, postErrorInfo } from './post';
 import { ViewIndexPanel } from './ViewIndexPanel';
+import { saveStorage } from './globalStorage';
 
 // commands
 export const extensionCommandId: string = 'error-recorder.errorRecorder';
 export const postCommandId: string = 'error-recorder.postError';
+export const saveStorageCommandId: string = 'error-recorder.saveStorage';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -29,6 +31,13 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			extensionCommandId, async () => { }
+		)
+	);
+
+	// SaveStorage
+	context.subscriptions.push(
+		vscode.commands.registerCommand(
+			saveStorageCommandId, () => saveStorage(context)
 		)
 	);
 
