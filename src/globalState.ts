@@ -3,31 +3,31 @@ import { onUnexpectedError } from './common/errors';
 import { isEmptyObject } from './common/objectTypes';
 
 type MementoObject = {
-  // id: string;
-  // title: string;
-  // default: string;
-  [key: string]: any
+  [key: string]: PostMementObj;
 };
 
+type PostMementObj = {
+  title: string;
+  solutionCode: string;
+  sourceCode: string;
+  lang: string;
+};
+
+
 export async function saveStorage(context: vscode.ExtensionContext) {
-
-  const m = new Mement('1', context);
-  console.log(m.getMemento());
-  // console.log(m.saveMemento('hoge'));
-  console.log(m.saveMemento('vscodeです'));
-  console.log(m.getMemento());
-
+  console.log(context);
 };
 
 // 全体的なmementoの定義 saveやread,writeを行うclass
 export class Mement {
 
   private static readonly applicationMementos = new Map<string, StateManager>();
-  private static readonly cacheName: string = 'error-recorder/';
+  private static readonly cacheName: string = 'error-recorder/post';
+
   private readonly id: string;
 
-  constructor(id: string, private storageService: vscode.ExtensionContext) {
-    this.id = Mement.cacheName + id;    //(例)error-recorder/1
+  constructor(id: number, private storageService: vscode.ExtensionContext) {
+    this.id = `${Mement.cacheName}/${id}`;  //(例)error-recorder/post/1
     this.storageService = storageService;
   };
 
@@ -43,10 +43,11 @@ export class Mement {
   };
 
   // StateManagerのwriteを呼び出し、(引数)を保存させる
-  saveMemento(value: string): void {
-    Mement.applicationMementos.get(this.id)?.write(value);
+  saveMemento(obj: PostMementObj): void {
+    Mement.applicationMementos.get(this.id)?.write(obj);
   };
 
+  // <memo: onda> 未完成
   static clear(): void {
     console.log('これはclearメソッドです');
     Mement.applicationMementos.clear();
@@ -87,13 +88,8 @@ class StateManager {
   };
 
   // 「保存」: idと一緒に一致する値も一緒に格納する
-  write(value: string): void {
-    if (!isEmptyObject(this.mementoObj)) {
-			// const mementoData = this.store(this.id, JSON.stringify(value));
-      this.storageService.globalState.update(this.id, JSON.stringify(value));
-		} else {
-			// this.storageService.remove(this.id);
-		};
+  write(obj: PostMementObj): void {
+    this.storageService.globalState.update(this.id, JSON.stringify(obj));
 	};
 
   // <memo:onda>今後使う予定あり
