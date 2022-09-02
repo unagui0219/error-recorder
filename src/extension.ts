@@ -1,12 +1,13 @@
-import axios from 'axios';
 import * as vscode from 'vscode';
 import { SidebarProvider } from "./SidebarProvider";
-import { PostData, postErrorInfo } from './post';
+import { postErrorInfo } from './post';
 import { ViewIndexPanel } from './ViewIndexPanel';
+import { saveStorage } from './globalState';
 
 // commands
 export const extensionCommandId: string = 'error-recorder.errorRecorder';
 export const postCommandId: string = 'error-recorder.postError';
+export const saveStorageCommandId: string = 'error-recorder.saveStorage';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -15,6 +16,12 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand("error-recorder.index", () => {
 			ViewIndexPanel.createOrShow(context.extensionUri);
 		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(
+			saveStorageCommandId, () => saveStorage(context)
+		)
 	);
 
 	// SideBar
