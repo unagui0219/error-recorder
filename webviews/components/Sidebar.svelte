@@ -30,33 +30,55 @@
 <main>
     error recorder index
     {#if state.page === "search"}
-        <h1>Search</h1>
-        <button
-            on:click={() => {
-                state = { page: "show" };
-            }}>showへ</button
-        >
-        <button
-            on:click={() => {
-                state = { page: "edit" };
-            }}>editへ</button
-        >
+        <h1>エラー検索</h1>
+        <div class="search-input">
+            <input type="text" placeholder="errorを入力" autofocus />
+        </div>
+        <div class="sidebar-btn">
+            <button
+                on:click={() => {
+                    state = { page: "show" };
+                }}
+            >
+                一覧を表示
+            </button>
+        </div>
+        <div class="sidebar-btn">
+            <button
+                on:click={() => {
+                    state = { page: "show" };
+                }}
+            >
+                エラーポストを作成
+            </button>
+        </div>
     {:else if state.page === "show"}
         <h1>Show</h1>
         <button
             on:click={() => {
                 state = { page: "search" };
-            }}>searchへ</button
+            }}
         >
+            searchへ
+        </button>
     {:else if state.page === "edit"}
         <h1>Edit</h1>
         <button
             on:click={() => {
                 state = { page: "show" };
-            }}>showへ</button
+            }}
         >
+            showへ
+        </button>
     {/if}
 </main>
 
 <style>
+    .search-input {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+    .sidebar-btn {
+        margin-bottom: 1rem;
+    }
 </style>

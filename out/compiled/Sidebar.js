@@ -47,6 +47,12 @@ var app = (function () {
         node.addEventListener(event, handler, options);
         return () => node.removeEventListener(event, handler, options);
     }
+    function attr(node, attribute, value) {
+        if (value == null)
+            node.removeAttribute(attribute);
+        else if (node.getAttribute(attribute) !== value)
+            node.setAttribute(attribute, value);
+    }
     function children(element) {
         return Array.from(element.childNodes);
     }
@@ -317,6 +323,13 @@ var app = (function () {
             dispose();
         };
     }
+    function attr_dev(node, attribute, value) {
+        attr(node, attribute, value);
+        if (value == null)
+            dispatch_dev('SvelteDOMRemoveAttribute', { node, attribute });
+        else
+            dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
+    }
     function validate_slots(name, slot, keys) {
         for (const slot_key of Object.keys(slot)) {
             if (!~keys.indexOf(slot_key)) {
@@ -349,7 +362,7 @@ var app = (function () {
     const { Object: Object_1 } = globals;
     const file = "webviews/components/Sidebar.svelte";
 
-    // (41:36) 
+    // (54:36) 
     function create_if_block_2(ctx) {
     	let h1;
     	let t1;
@@ -364,8 +377,8 @@ var app = (function () {
     			t1 = space();
     			button = element("button");
     			button.textContent = "showへ";
-    			add_location(h1, file, 41, 8, 1108);
-    			add_location(button, file, 42, 8, 1130);
+    			add_location(h1, file, 54, 8, 1448);
+    			add_location(button, file, 55, 8, 1470);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -391,14 +404,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(41:36) ",
+    		source: "(54:36) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (34:36) 
+    // (45:36) 
     function create_if_block_1(ctx) {
     	let h1;
     	let t1;
@@ -413,8 +426,8 @@ var app = (function () {
     			t1 = space();
     			button = element("button");
     			button.textContent = "searchへ";
-    			add_location(h1, file, 34, 8, 918);
-    			add_location(button, file, 35, 8, 940);
+    			add_location(h1, file, 45, 8, 1236);
+    			add_location(button, file, 46, 8, 1258);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -440,7 +453,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(34:36) ",
+    		source: "(45:36) ",
     		ctx
     	});
 
@@ -451,8 +464,13 @@ var app = (function () {
     function create_if_block(ctx) {
     	let h1;
     	let t1;
+    	let div0;
+    	let input;
+    	let t2;
+    	let div1;
     	let button0;
-    	let t3;
+    	let t4;
+    	let div2;
     	let button1;
     	let mounted;
     	let dispose;
@@ -460,23 +478,44 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			h1 = element("h1");
-    			h1.textContent = "Search";
+    			h1.textContent = "エラー検索";
     			t1 = space();
+    			div0 = element("div");
+    			input = element("input");
+    			t2 = space();
+    			div1 = element("div");
     			button0 = element("button");
-    			button0.textContent = "showへ";
-    			t3 = space();
+    			button0.textContent = "一覧を表示";
+    			t4 = space();
+    			div2 = element("div");
     			button1 = element("button");
-    			button1.textContent = "editへ";
+    			button1.textContent = "エラーポストを作成";
     			add_location(h1, file, 22, 8, 603);
-    			add_location(button0, file, 23, 8, 627);
-    			add_location(button1, file, 28, 8, 754);
+    			attr_dev(input, "type", "text");
+    			attr_dev(input, "placeholder", "errorを入力");
+    			input.autofocus = true;
+    			add_location(input, file, 24, 12, 665);
+    			attr_dev(div0, "class", "search-input svelte-1xwqqky");
+    			add_location(div0, file, 23, 8, 626);
+    			add_location(button0, file, 27, 12, 781);
+    			attr_dev(div1, "class", "sidebar-btn svelte-1xwqqky");
+    			add_location(div1, file, 26, 8, 743);
+    			add_location(button1, file, 36, 12, 1007);
+    			attr_dev(div2, "class", "sidebar-btn svelte-1xwqqky");
+    			add_location(div2, file, 35, 8, 969);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
     			insert_dev(target, t1, anchor);
-    			insert_dev(target, button0, anchor);
-    			insert_dev(target, t3, anchor);
-    			insert_dev(target, button1, anchor);
+    			insert_dev(target, div0, anchor);
+    			append_dev(div0, input);
+    			insert_dev(target, t2, anchor);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, button0);
+    			insert_dev(target, t4, anchor);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, button1);
+    			input.focus();
 
     			if (!mounted) {
     				dispose = [
@@ -491,9 +530,11 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(h1);
     			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(button0);
-    			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(button1);
+    			if (detaching) detach_dev(div0);
+    			if (detaching) detach_dev(t2);
+    			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(t4);
+    			if (detaching) detach_dev(div2);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -607,7 +648,7 @@ var app = (function () {
     	};
 
     	const click_handler_1 = () => {
-    		$$invalidate(0, state = { page: "edit" });
+    		$$invalidate(0, state = { page: "show" });
     	};
 
     	const click_handler_2 = () => {
