@@ -1,45 +1,42 @@
 import axios from 'axios';
-import * as vscode from 'vscode';
 
-export type PostData = {
+type PostDataObject = {
 	errorTitle: string;
 	solutionCode: string;
 	sourceCode: string;
 	lang: string;
 };
 
-export async function postErrorInfo() {
-  // サーバーの送信先URL
-  const postUrl: string = 'https://api/v1/posts';
+export const dataObj: PostDataObject = {
+  errorTitle: 'Error',
+  solutionCode: 'Solution Code',
+  sourceCode: 'Source Code',
+  lang: 'Lang'
+};
 
-  // convert errorcode to json
-  const errorCodeToJson = (errorCode: string) => {
-    try {
-      return JSON.parse(errorCode);
-    } catch (e) {
-      console.log(e);
-    };
+export class PostErrorInfo {
+
+  private readonly postObj: string;
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  constructor(private postUrl: string, private Obj: PostDataObject) {
+    this.postUrl = postUrl;
+    this.postObj = this.errorCodeToJson(Obj);
+    this.postServer();
   };
 
-  // send data to rails server ← <memo: onda>Quick Pickで入力した値を格納したい
-  const data: PostData = {
-    errorTitle: 'Error',
-    solutionCode: 'Solution Code',
-    sourceCode: 'Source Code',
-    lang: 'Lang'
+  // convert postData to json
+  errorCodeToJson(obj: PostDataObject): string {
+    return JSON.stringify(obj);
   };
 
-  // リスト(Quick Pick)？で入力したエラーデータをサーバーへ送信
-  await axios.post(
-    postUrl,
-    data
-  )
-  .then(res => {
-    console.log(res);
-  })
-  .catch(err => {
-    console.log("err:", err);
-  });
-
-  vscode.window.showInformationMessage('hello post');
+  async postServer() {
+    await axios.post(this.postUrl, this.postObj)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log("err:", err);
+      });
+  };
 };
