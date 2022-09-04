@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:errorRecorder-sidebar",
+    "onView:errorRecorderSidebar",
     "onCommand:error-recorder.index",
     "onCommand:error-recorder.postError",
     "onCommand:error-recorder.saveStorage"
@@ -30,7 +30,7 @@
       "errorRecorder-sidebar-view": [
         {
           "type": "webview",
-          "id": "errorRecorder-sidebar",
+          "id": "errorRecorderSidebar",
           "name": "ErrorRecorder",
           "icon": "media/checklist.svg",
           "contextualTitle": "ErrorRecorder"
@@ -43,7 +43,7 @@
         "title": "errorRecorder"
       },
       {
-        "command": "error-recorder.index",
+        "command": "errorRecorder.index",
         "title": "errorRecorderIndex"
       },
       {
