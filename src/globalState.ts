@@ -16,7 +16,7 @@ export async function saveStorage(context: vscode.ExtensionContext) {
 
 };
 
-// 全体的なmementoの定義 saveやread,writeを行うclass
+// 全体的なmementoの定義
 export class Mement {
 
   private static readonly applicationMementos = new Map<string, StateManager>();
@@ -88,6 +88,7 @@ class StateManager {
     await this.storageService.globalState.update(this.id, JSON.stringify(obj));
 	};
 
+  // undefinedとすることで、次のデバック時にキーがglobalState._valueオブジェクトから削除される
   remove(key: string) {
     this.storageService.globalState.update(key, undefined);
   };
