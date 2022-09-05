@@ -18,6 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 
+	// SaveStorage
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			saveStorageCommandId, () => saveStorage(context)
