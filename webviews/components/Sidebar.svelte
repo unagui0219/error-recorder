@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import Search from "../screens/Search.svelte";
 
     import type { State } from "../shared/types";
     let lastState = tsvscode.getState();
@@ -28,30 +29,15 @@
 </script>
 
 <main>
-    error recorder index
     {#if state.page === "search"}
-        <h1>エラー検索</h1>
-        <div class="search-input">
-            <input type="text" placeholder="errorを入力" autofocus />
-        </div>
-        <div class="sidebar-btn">
-            <button
-                on:click={() => {
+        <Search
+            toShow={() => {
                     state = { page: "show" };
                 }}
-            >
-                一覧を表示
-            </button>
-        </div>
-        <div class="sidebar-btn">
-            <button
-                on:click={() => {
-                    state = { page: "show" };
+            toCreate={() => {
+                state = { page: "create" };
                 }}
-            >
-                エラーポストを作成
-            </button>
-        </div>
+        />
     {:else if state.page === "show"}
         <h1>Show</h1>
         <button
@@ -74,11 +60,4 @@
 </main>
 
 <style>
-    .search-input {
-        margin-top: 1rem;
-        margin-bottom: 2rem;
-    }
-    .sidebar-btn {
-        margin-bottom: 1rem;
-    }
 </style>
