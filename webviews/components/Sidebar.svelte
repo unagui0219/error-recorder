@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import CreatePost from "../screens/CreatePost.svelte";
     import Search from "../screens/Search.svelte";
 
     import type { State } from "../shared/types";
@@ -32,11 +33,11 @@
     {#if state.page === "search"}
         <Search
             toShow={() => {
-                    state = { page: "show" };
-                }}
+                state = { page: "show" };
+            }}
             toCreate={() => {
                 state = { page: "create" };
-                }}
+            }}
         />
     {:else if state.page === "show"}
         <h1>Show</h1>
@@ -47,6 +48,8 @@
         >
             searchへ
         </button>
+    {:else if state.page === "create"}
+        <CreatePost />
     {:else if state.page === "edit"}
         <h1>Edit</h1>
         <button
