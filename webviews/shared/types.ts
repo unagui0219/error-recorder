@@ -1,6 +1,7 @@
 export type State =
     | { page: "search" }
     | { page: "edit" }
+    | { page: "create" }
     | { page: "show" }
     | ReviewCodeImgsState
     | { page: "loading" };
