@@ -9,7 +9,7 @@ export const extensionCommandId: string = 'error-recorder.errorRecorder';
 export const postCommandId: string = 'error-recorder.postError';
 export const saveStorageCommandId: string = 'error-recorder.saveStorage';
 export const indexWebviewCommandId: string = 'error-recorder.index';
-export const sidebarCommandId: string = 'errorRecorderSidebar.focus';
+export const sidebarCommandId: string = 'errorRecorderSidebar';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -53,7 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// StatusBarItem
 	const statusBarButton: vscode.StatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
-	statusBarButton.command = sidebarCommandId;
+	statusBarButton.command = 'errorRecorderSidebar.focus';
 	statusBarButton.text = 'ErrorRecorder';
 	statusBarButton.show();
 	context.subscriptions.push(statusBarButton);
