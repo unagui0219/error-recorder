@@ -1,11 +1,12 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
+import { ViewIndexPanel } from "./ViewIndexPanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
   _doc?: vscode.TextDocument;
 
-  constructor(private readonly _extensionUri: vscode.Uri) { }
+  constructor(private readonly _extensionUri: vscode.Uri, private context: vscode.ExtensionContext) { }
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
@@ -21,6 +22,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
+        case "startViewIndex": {
+          ViewIndexPanel.createOrShow(this._extensionUri);
+          break;
+        }
         case "onInfo": {
           if (!data.value) {
             return;

@@ -28,7 +28,7 @@ export class ViewIndexPanel {
         // Otherwise, create a new panel.
         const panel = vscode.window.createWebviewPanel(
             ViewIndexPanel.viewType,
-            "Error Recorder Index",
+            "ポスト一覧：Error Recorder",
             column || vscode.ViewColumn.One,
             {
                 // Enable javascript in the webview

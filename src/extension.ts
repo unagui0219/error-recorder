@@ -10,10 +10,13 @@ export const postCommandId: string = 'error-recorder.postError';
 export const saveStorageCommandId: string = 'error-recorder.saveStorage';
 
 export function activate(context: vscode.ExtensionContext) {
-
+	// const viewIndex = new ViewIndexPanel;
+	// context.subscriptions.push(
+	// 	vscode.window.registerWebviewViewProvider("errorRecorder.index", viewIndex)
+	// );
 	// Index Webview
 	context.subscriptions.push(
-		vscode.commands.registerCommand("errorRecorder.index", () => {
+		vscode.commands.registerCommand("error-recorder.index", () => {
 			ViewIndexPanel.createOrShow(context.extensionUri);
 		})
 	);
@@ -25,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	// SideBar
-	const sidebarProvider = new SidebarProvider(context.extensionUri);
+	const sidebarProvider = new SidebarProvider(context.extensionUri, context);
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(
 			"errorRecorderSidebar",
