@@ -8,12 +8,14 @@ import { saveStorage } from './globalState';
 export const extensionCommandId: string = 'error-recorder.errorRecorder';
 export const postCommandId: string = 'error-recorder.postError';
 export const saveStorageCommandId: string = 'error-recorder.saveStorage';
+export const indexWebviewCommandId: string = 'error-recorder.index';
+export const sidebarCommandId: string = 'errorRecorderSidebar.focus';
 
 export function activate(context: vscode.ExtensionContext) {
 
 	// Index Webview
 	context.subscriptions.push(
-		vscode.commands.registerCommand("errorRecorder.index", () => {
+		vscode.commands.registerCommand(indexWebviewCommandId, () => {
 			ViewIndexPanel.createOrShow(context.extensionUri);
 		})
 	);
@@ -29,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const sidebarProvider = new SidebarProvider(context.extensionUri);
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(
-			"errorRecorderSidebar",
+			sidebarCommandId,
 			sidebarProvider
 		)
 	);
@@ -51,10 +53,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// StatusBarItem
 	const statusBarButton: vscode.StatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
-	statusBarButton.command = postCommandId;
+	statusBarButton.command = sidebarCommandId;
 	statusBarButton.text = 'ErrorRecorder';
-	context.subscriptions.push(statusBarButton);
 	statusBarButton.show();
+	context.subscriptions.push(statusBarButton);
 }
 
 export function deactivate() { }
