@@ -21,6 +21,8 @@
             placeholder="解決用のコードを入力"
         />
         <input class="post-input" type="text" placeholder="言語を入力" />
+        <input class="post-input" type="checkbox" id="online_flag" checked />
+        <label for="online_flag">オンラインにアップロードする</label>
         <button>保存する</button>
     </div>
 </div>
