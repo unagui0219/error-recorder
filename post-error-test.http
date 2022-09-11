@@ -1,0 +1,12 @@
+GET http://localhost:3000/api/v1/posts
+
+
+POST http://localhost:3000/api/v1/posts
+content-type: application/json
+
+{
+  "error_title": "Error",
+  "solution_code": "Solution Code",
+  "source_code": "Source Code",
+  "lang": "Ruby"
+}

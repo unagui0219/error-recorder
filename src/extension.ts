@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { SidebarProvider } from "./SidebarProvider";
-import { PostErrorInfo, dataObj } from './post';
+import { PostErrorInfo } from './post';
 import { ViewIndexPanel } from './ViewIndexPanel';
 import { saveStorage } from './globalState';
 
@@ -46,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			postCommandId, () => {
-				new PostErrorInfo('https://api/v1/posts', dataObj);
+				// new PostErrorInfo('https://api/v1/posts', dataObj);
 			}
 		)
 	);
