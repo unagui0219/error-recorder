@@ -105,6 +105,19 @@ export class ViewIndexPanel {
                     ViewShowPanel.createOrShow(this._extensionUri, oneData);
                     break;
                 }
+                case "removePost": {
+                    const y = await vscode.window.showInformationMessage(
+                        "本当にエラーポストを削除しますか？",
+                        "はい",
+                        "いいえ"
+                    );
+                    if (y === "はい") {
+                        const oneData = await this._context.globalState.update(data.value, undefined);
+                        console.log(oneData);
+                        this._panel.webview.html = this._getHtmlForWebview(webview);
+                    }
+                    break;
+                }
                 case "onInfo": {
                     if (!data.value) {
                         return;

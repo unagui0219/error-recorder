@@ -3,6 +3,9 @@
     const toShow = async (i: any) => {
         await tsvscode.postMessage({ type: "showPost", value: i });
     };
+    const removePost = async (i: any) => {
+        await tsvscode.postMessage({ type: "removePost", value: i });
+    };
 </script>
 
 <div class="title-box">
@@ -21,7 +24,9 @@
                 >詳細を見る</button
             >
             <button>編集</button>
-            <button class="delete-btn">削除</button>
+            <button class="delete-btn" on:click={() => removePost(post[0])}
+                >削除</button
+            >
         </div>
     </div>
 {/each}
