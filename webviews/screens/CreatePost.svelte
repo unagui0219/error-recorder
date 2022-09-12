@@ -1,5 +1,14 @@
 <script lang="ts">
     import PageTitle from "../ui/PageTitle.svelte";
+    const testdata = {
+        title: "error1",
+        solutionCode: "Foo1",
+        sourceCode: "Foo1",
+        lang: "Ruby",
+    };
+    const savePost = async () => {
+        await tsvscode.postMessage({ type: "savePost", value: testdata });
+    };
 </script>
 
 <div>
@@ -23,7 +32,7 @@
         <input class="post-input" type="text" placeholder="言語を入力" />
         <input class="post-input" type="checkbox" id="online_flag" checked />
         <label for="online_flag">オンラインにアップロードする</label>
-        <button>保存する</button>
+        <button on:click={savePost}>保存する</button>
     </div>
 </div>
 

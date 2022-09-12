@@ -7,6 +7,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   _doc?: vscode.TextDocument;
 
   constructor(private readonly _extensionUri: vscode.Uri, private context: vscode.ExtensionContext) { }
+  private readonly state = this.context.globalState;
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
@@ -25,6 +26,19 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         case "startViewIndex": {
           ViewIndexPanel.createOrShow(this._extensionUri);
           break;
+        }
+        case "savePost": {
+          if (!data.value) {
+            return;
+          }
+          const id = String(Date.now());
+          this.state.update(id, data.value);
+          const post = this.state.get(id);
+          if (post) {
+            break;
+          } else {
+            vscode.window.showErrorMessage("保存できませんでした。");
+          }
         }
         case "onInfo": {
           if (!data.value) {
