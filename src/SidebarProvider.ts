@@ -24,7 +24,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
         case "startViewIndex": {
-          ViewIndexPanel.createOrShow(this._extensionUri);
+          const allData = this.state._value || "none";
+          ViewIndexPanel.createOrShow(this._extensionUri, allData);
+          break;
+        }
           break;
         }
         case "savePost": {

@@ -1,5 +1,11 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
+type PostObj = {
+    title: string;
+    solutionCode: string;
+    sourceCode: string;
+    lang: string;
+};
 
 export class ViewIndexPanel {
     /**
@@ -11,9 +17,10 @@ export class ViewIndexPanel {
 
     private readonly _panel: vscode.WebviewPanel;
     private readonly _extensionUri: vscode.Uri;
+    private readonly _postData: PostObj;
     private _disposables: vscode.Disposable[] = [];
 
-    public static createOrShow(extensionUri: vscode.Uri) {
+    public static createOrShow(extensionUri: vscode.Uri, postData: PostObj) {
         const column = vscode.window.activeTextEditor
             ? vscode.window.activeTextEditor.viewColumn
             : undefined;
@@ -42,7 +49,7 @@ export class ViewIndexPanel {
             }
         );
 
-        ViewIndexPanel.currentPanel = new ViewIndexPanel(panel, extensionUri);
+        ViewIndexPanel.currentPanel = new ViewIndexPanel(panel, extensionUri, postData);
     }
 
     public static kill() {
@@ -50,13 +57,14 @@ export class ViewIndexPanel {
         ViewIndexPanel.currentPanel = undefined;
     }
 
-    public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-        ViewIndexPanel.currentPanel = new ViewIndexPanel(panel, extensionUri);
+    public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: PostObj) {
+        ViewIndexPanel.currentPanel = new ViewIndexPanel(panel, extensionUri, postData);
     }
 
-    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
+    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: PostObj) {
         this._panel = panel;
         this._extensionUri = extensionUri;
+        this._postData = postData;
 
         // Set the webview's initial html content
         this._update();
@@ -141,6 +149,7 @@ export class ViewIndexPanel {
                 <link href="${stylesMainUri}" rel="stylesheet">
                 <link href="${stylesCustomUri}" rel="stylesheet">
                 <script nonce="${nonce}">
+                let postData = ${JSON.stringify(this._postData)};
                 </script>
 			</head>
             <body>
