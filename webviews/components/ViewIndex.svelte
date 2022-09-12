@@ -1,5 +1,8 @@
 <script lang="ts">
     let posts = Object.entries(postData);
+    const toShow = async (i: any) => {
+        await tsvscode.postMessage({ type: "showPost", value: i });
+    };
 </script>
 
 <div class="title-box">
@@ -14,7 +17,9 @@
             <p><span>解決策：</span>{post[1].solutionCode}</p>
         </div>
         <div class="post-box_button_box">
-            <button class="big-btn">詳細を見る</button>
+            <button class="big-btn" on:click={() => toShow(post[0])}
+                >詳細を見る</button
+            >
             <button>編集</button>
             <button class="delete-btn">削除</button>
         </div>
