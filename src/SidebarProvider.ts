@@ -36,6 +36,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           this.state.update(id, data.value);
           const post = this.state.get(id);
           if (post) {
+            ViewIndexPanel.kill();
+            const allData = this.state._value || "none";
+            ViewIndexPanel.createOrShow(this.context, this._extensionUri, allData);
             break;
           } else {
             vscode.window.showErrorMessage("保存できませんでした。");
