@@ -88,10 +88,18 @@
                 bind:value={lang}
                 placeholder="言語を入力"
             />
-            <input class="post-input" type="text" placeholder="言語を入力" />
-            <input class="post-input" type="checkbox" id="online_flag" checked />
+            <input
+                id="online_flag"
+                class="post-input"
+                type="checkbox"
+                checked 
+            />
             <label for="online_flag">オンラインにアップロードする</label>
-            <button on:click={savePost}>保存する</button>
+            <button
+                on:click={savePost}
+                disabled={isSubmitting}
+            >保存する
+            </button>
         </form>
     </div>
 </div>
