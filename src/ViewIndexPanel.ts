@@ -113,8 +113,12 @@ export class ViewIndexPanel {
                     );
                     if (y === "はい") {
                         const oneData = await this._context.globalState.update(data.value, undefined);
-                        console.log(oneData);
-                        this._panel.webview.html = this._getHtmlForWebview(webview);
+                        ViewIndexPanel.kill();
+                        const postData = this._context.globalState._value;
+                        console.log(postData);
+                        ViewIndexPanel.createOrShow(this._context, this._extensionUri, postData);
+                        // ViewIndexPanel.revive(this._panel, this._context, this._extensionUri, postData);
+                        // this._panel.webview.html = this._getHtmlForWebview(webview);
                     }
                     break;
                 }
