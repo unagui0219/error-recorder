@@ -1,23 +1,11 @@
 <script lang="ts">
-    let users = [
-        {
-            title: " [!] (plugin svelte) ParseError: Unexpected token",
-            solution_code: "rails s",
-            source_code: "dkamkldnjwbdbnejbfheabjkndjkan",
-        },
-        {
-            title: "Hana",
-            solution_code:
-                "raaaaaaaaaaam kmkmkmkmk nfelwjfkjhewuinfuewnu nfinmaklnfiewnahf unkjanklfjnas ijfiwjnoi",
-            source_code: "dkamkldnjwbdbnejbfheabjkndjkan",
-        },
-        {
-            title: "Ken",
-            solution_code:
-                "daidjkabhjf bewjbfhjlbsfbdksbgh v dfhbfkbewulhfijebhjfei uajhkldfsnkjnfksm fknjeskbfm nmambfjkbneasnm jkueahu",
-            source_code: "dkamkldnjwbdbnejbfheabjkndjkan",
-        },
-    ];
+    let posts = Object.entries(postData);
+    const toShow = async (i: any) => {
+        await tsvscode.postMessage({ type: "showPost", value: i });
+    };
+    const removePost = async (i: any) => {
+        await tsvscode.postMessage({ type: "removePost", value: i });
+    };
 </script>
 
 <div class="title-box">
@@ -25,16 +13,20 @@
     <hr />
 </div>
 
-{#each users as user}
+{#each posts as post}
     <div class="post-box">
         <div class="post-box_content">
-            <h2 class="title">{user.title}</h2>
-            <p><span>解決策：</span>{user.solution_code}</p>
+            <h2 class="title">{post[1].title}</h2>
+            <p><span>解決策：</span>{post[1].solutionCode}</p>
         </div>
         <div class="post-box_button_box">
-            <button class="big-btn">詳細を見る</button>
+            <button class="big-btn" on:click={() => toShow(post[0])}
+                >詳細を見る</button
+            >
             <button>編集</button>
-            <button class="delete-btn">削除</button>
+            <button class="delete-btn" on:click={() => removePost(post[0])}
+                >削除</button
+            >
         </div>
     </div>
 {/each}

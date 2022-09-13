@@ -2,16 +2,22 @@
     import PageTitle from "../ui/PageTitle.svelte";
     export let toCreate: () => void;
     export let toShow: () => void;
+    const toIndex = async () => {
+        await tsvscode.postMessage({ type: "startViewIndex" });
+    };
 </script>
 
 <div>
     <PageTitle title={"エラー検索"} />
     <div class="search-input">
         <!-- svelte-ignore a11y-autofocus -->
-        <input type="text" placeholder="errorを入力" autofocus />
+        <input type="search" placeholder="errorを入力" autofocus />
     </div>
     <div class="sidebar-btn">
-        <button on:click={toShow}> 一覧を表示 </button>
+        <button on:click={toShow}> showを表示 </button>
+    </div>
+    <div class="sidebar-btn">
+        <button on:click={toIndex}> エラーポスト一覧を表示 </button>
     </div>
     <div class="sidebar-btn">
         <button on:click={toCreate}> エラーポストを作成 </button>

@@ -3,15 +3,4 @@ export type State =
     | { page: "edit" }
     | { page: "create" }
     | { page: "show" }
-    | ReviewCodeImgsState
     | { page: "loading" };
-
-export type ReviewCodeImgsState = {
-    page: "review-code-imgs";
-    codeImgIds: CodeImgIdItem[];
-};
-
-export type CodeImgIdItem = {
-    value: string;
-    tmpId: string;
-};

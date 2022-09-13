@@ -5,20 +5,8 @@
 
     import type { State } from "../shared/types";
     let lastState = tsvscode.getState();
-    function removeLoadingImgsFromState(s: State) {
-        if (s.page === "review-code-imgs") {
-            return {
-                ...s,
-                codeImgIds: s.codeImgIds.filter((x) => x.value),
-            };
-        }
-        return s;
-    }
 
-    let state: State =
-        lastState && lastState.page !== "loading"
-            ? removeLoadingImgsFromState(lastState)
-            : { page: "loading" };
+    let state: State = { page: "search" };
 
     onMount(async () => {
         state = { page: "search" };
