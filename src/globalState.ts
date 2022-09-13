@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import { onUnexpectedError } from './common/errors';
-import { isEmptyObject } from './common/objectTypes';
 
 type MementoObject = {
   [key: string]: PostMementObj;
@@ -14,10 +13,10 @@ type PostMementObj = {
 };
 
 export async function saveStorage(context: vscode.ExtensionContext) {
-  console.log(context);
+
 };
 
-// 全体的なmementoの定義 saveやread,writeを行うclass
+// 全体的なmementoの定義
 export class Mement {
 
   private static readonly applicationMementos = new Map<string, StateManager>();
@@ -31,7 +30,7 @@ export class Mement {
   };
 
   // StateManagerのreadを呼び出し、一致するidの値を読み込む
-  getMemento(): MementoObject {
+  getMemento() {
     let applicationMemento = Mement.applicationMementos.get(this.id);
     if (!applicationMemento) {
       applicationMemento = new StateManager(this.id, this.storageService);
@@ -46,10 +45,8 @@ export class Mement {
     Mement.applicationMementos.get(this.id)?.write(obj);
   };
 
-  // <memo: onda> 未完成
-  static clear(): void {
-    console.log('これはclearメソッドです');
-    Mement.applicationMementos.clear();
+  keyRemove() {
+    Mement.applicationMementos.get(this.id)?.remove(this.id);
   };
 };
 
@@ -71,7 +68,7 @@ class StateManager {
   };
 
   // 「読み込み」: idに一致している値をmementoへ格納
-  read(): MementoObject {
+  read() {
     const memento = this.storageService.globalState.get(this.id);
     if (memento) {
       try {
@@ -83,24 +80,16 @@ class StateManager {
       };
     };
 
-    return {};
+    return memento;
   };
 
   // 「保存」: idと一緒に一致する値も一緒に格納する
-  write(obj: PostMementObj): void {
-    this.storageService.globalState.update(this.id, JSON.stringify(obj));
+  async write(obj: PostMementObj): Promise<void> {
+    await this.storageService.globalState.update(this.id, JSON.stringify(obj));
 	};
 
-  // <memo:onda>今後使う予定あり
-  store(id: string, value: string | boolean | number | undefined | null): void {
-    const mementoObj = {
-      value,
-    };
-    if (isEmptyObject(mementoObj)) {
-      return;
-    };
-
-    console.log(`storeのmementoObj:${mementoObj}`);
-    return mementoObj;
+  // undefinedとすることで、次のデバック時にキーがglobalState._valueオブジェクトから削除される
+  remove(key: string) {
+    this.storageService.globalState.update(key, undefined);
   };
 };
