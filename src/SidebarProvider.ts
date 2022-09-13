@@ -1,11 +1,13 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
+import { ViewIndexPanel } from "./ViewIndexPanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
   _doc?: vscode.TextDocument;
 
-  constructor(private readonly _extensionUri: vscode.Uri) { }
+  constructor(private readonly _extensionUri: vscode.Uri, private context: vscode.ExtensionContext) { }
+  private readonly state = this.context.globalState;
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
@@ -21,6 +23,27 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
+        case "startViewIndex": {
+          const allData = this.state._value || "none";
+          ViewIndexPanel.createOrShow(this.context, this._extensionUri, allData);
+          break;
+        }
+        case "savePost": {
+          if (!data.value) {
+            return;
+          }
+          const id = String(Date.now());
+          this.state.update(id, data.value);
+          const post = this.state.get(id);
+          if (post) {
+            ViewIndexPanel.kill();
+            const allData = this.state._value || "none";
+            ViewIndexPanel.createOrShow(this.context, this._extensionUri, allData);
+            break;
+          } else {
+            vscode.window.showErrorMessage("保存できませんでした。");
+          }
+        }
         case "onInfo": {
           if (!data.value) {
             return;

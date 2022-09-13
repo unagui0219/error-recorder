@@ -11,14 +11,6 @@ export const sidebarCommandId: string = 'errorRecorderSidebar';
 
 export function activate(context: vscode.ExtensionContext) {
 
-	// Index Webview
-	context.subscriptions.push(
-		vscode.commands.registerCommand(indexWebviewCommandId, () => {
-			ViewIndexPanel.createOrShow(context.extensionUri);
-		})
-	);
-
-	// SaveStorage
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			saveStorageCommandId, () => saveStorage(context)
@@ -26,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	// SideBar
-	const sidebarProvider = new SidebarProvider(context.extensionUri);
+	const sidebarProvider = new SidebarProvider(context.extensionUri, context);
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(
 			sidebarCommandId,

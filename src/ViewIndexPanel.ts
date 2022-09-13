@@ -1,5 +1,12 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
+import { ViewShowPanel } from "./ViewShowPanel";
+type PostObj = {
+    title: string;
+    solutionCode: string;
+    sourceCode: string;
+    lang: string;
+};
 
 export class ViewIndexPanel {
     /**
@@ -9,11 +16,14 @@ export class ViewIndexPanel {
 
     public static readonly viewType = "index";
 
+
     private readonly _panel: vscode.WebviewPanel;
+    private readonly _context: vscode.ExtensionContext;
     private readonly _extensionUri: vscode.Uri;
+    private readonly _postData: PostObj;
     private _disposables: vscode.Disposable[] = [];
 
-    public static createOrShow(extensionUri: vscode.Uri) {
+    public static createOrShow(context: vscode.ExtensionContext, extensionUri: vscode.Uri, postData: PostObj) {
         const column = vscode.window.activeTextEditor
             ? vscode.window.activeTextEditor.viewColumn
             : undefined;
@@ -28,7 +38,7 @@ export class ViewIndexPanel {
         // Otherwise, create a new panel.
         const panel = vscode.window.createWebviewPanel(
             ViewIndexPanel.viewType,
-            "Error Recorder Index",
+            "ポスト一覧：Error Recorder",
             column || vscode.ViewColumn.One,
             {
                 // Enable javascript in the webview
@@ -42,7 +52,7 @@ export class ViewIndexPanel {
             }
         );
 
-        ViewIndexPanel.currentPanel = new ViewIndexPanel(panel, extensionUri);
+        ViewIndexPanel.currentPanel = new ViewIndexPanel(panel, context, extensionUri, postData);
     }
 
     public static kill() {
@@ -50,13 +60,15 @@ export class ViewIndexPanel {
         ViewIndexPanel.currentPanel = undefined;
     }
 
-    public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-        ViewIndexPanel.currentPanel = new ViewIndexPanel(panel, extensionUri);
+    public static revive(panel: vscode.WebviewPanel, context: vscode.ExtensionContext, extensionUri: vscode.Uri, postData: PostObj) {
+        ViewIndexPanel.currentPanel = new ViewIndexPanel(panel, context, extensionUri, postData);
     }
 
-    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
+    private constructor(panel: vscode.WebviewPanel, context: vscode.ExtensionContext, extensionUri: vscode.Uri, postData: PostObj) {
         this._panel = panel;
         this._extensionUri = extensionUri;
+        this._postData = postData;
+        this._context = context;
 
         // Set the webview's initial html content
         this._update();
@@ -87,6 +99,28 @@ export class ViewIndexPanel {
         this._panel.webview.html = this._getHtmlForWebview(webview);
         webview.onDidReceiveMessage(async (data) => {
             switch (data.type) {
+                case "showPost": {
+                    const oneData = [data.value, this._context.globalState.get(data.value)];
+                    console.log(oneData);
+                    ViewShowPanel.createOrShow(this._extensionUri, oneData);
+                    break;
+                }
+                case "removePost": {
+                    const y = await vscode.window.showInformationMessage(
+                        "本当にエラーポストを削除しますか？",
+                        "はい",
+                        "いいえ"
+                    );
+                    if (y === "はい") {
+                        const oneData = await this._context.globalState.update(data.value, undefined);
+                        ViewIndexPanel.kill();
+                        const postData = this._context.globalState._value;
+                        ViewIndexPanel.createOrShow(this._context, this._extensionUri, postData);
+                        // ViewIndexPanel.revive(this._panel, this._context, this._extensionUri, postData);
+                        // this._panel.webview.html = this._getHtmlForWebview(webview);
+                    }
+                    break;
+                }
                 case "onInfo": {
                     if (!data.value) {
                         return;
@@ -141,6 +175,8 @@ export class ViewIndexPanel {
                 <link href="${stylesMainUri}" rel="stylesheet">
                 <link href="${stylesCustomUri}" rel="stylesheet">
                 <script nonce="${nonce}">
+                const tsvscode = acquireVsCodeApi();
+                let postData = ${JSON.stringify(this._postData)};
                 </script>
 			</head>
             <body>

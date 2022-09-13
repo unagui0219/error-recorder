@@ -40,6 +40,16 @@
                 console.log("err:", err);
             });
     };
+
+    const testdata = {
+        title: "error1",
+        solutionCode: "Foo1",
+        sourceCode: "Foo1",
+        lang: "Ruby",
+    };
+    const savePost = async () => {
+        await tsvscode.postMessage({ type: "savePost", value: testdata });
+    };
 </script>
 
 <div>
@@ -78,13 +88,10 @@
                 bind:value={lang}
                 placeholder="言語を入力"
             />
-            <button
-                id="error-save-btn"
-                type="submit"
-                disabled={isSubmitting}
-            >
-            保存する
-            </button>
+            <input class="post-input" type="text" placeholder="言語を入力" />
+            <input class="post-input" type="checkbox" id="online_flag" checked />
+            <label for="online_flag">オンラインにアップロードする</label>
+            <button on:click={savePost}>保存する</button>
         </form>
     </div>
 </div>
