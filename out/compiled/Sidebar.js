@@ -2614,7 +2614,7 @@ var app = (function () {
     			attr_dev(button, "type", "submit");
     			button.disabled = /*isSubmitting*/ ctx[1];
     			attr_dev(button, "class", "svelte-1285mui");
-    			add_location(button, file$2, 70, 12, 2045);
+    			add_location(button, file$2, 69, 12, 2002);
     			add_location(form, file$2, 36, 8, 887);
     			attr_dev(div0, "class", "post-form");
     			add_location(div0, file$2, 35, 4, 855);

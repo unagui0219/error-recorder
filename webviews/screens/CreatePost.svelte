@@ -40,7 +40,6 @@
                 console.log("err:", err);
             });
     };
-
 </script>
 
 <div>
@@ -79,7 +78,6 @@
                 bind:value={lang}
                 placeholder="言語を入力"
             />
-            <!-- <button>保存する</button> -->
             <button
                 id="error-save-btn"
                 type="submit"
