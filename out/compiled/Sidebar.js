@@ -2593,32 +2593,32 @@ var app = (function () {
     			attr_dev(input0, "name", "errorTitle");
     			attr_dev(input0, "placeholder", "エラータイトルを入力");
     			input0.autofocus = true;
-    			add_location(input0, file$2, 80, 12, 2158);
+    			add_location(input0, file$2, 38, 12, 996);
     			attr_dev(textarea0, "id", "error-source-code");
     			attr_dev(textarea0, "class", "post-input post-text svelte-1285mui");
     			attr_dev(textarea0, "name", "error-source-code");
     			attr_dev(textarea0, "placeholder", "エラーのソースを入力");
-    			add_location(textarea0, file$2, 89, 12, 2429);
+    			add_location(textarea0, file$2, 47, 12, 1267);
     			attr_dev(textarea1, "id", "error-solution-code");
     			attr_dev(textarea1, "class", "post-input post-text svelte-1285mui");
     			attr_dev(textarea1, "name", "error-solution-code");
     			attr_dev(textarea1, "placeholder", "解決用のコードを入力");
-    			add_location(textarea1, file$2, 96, 12, 2677);
+    			add_location(textarea1, file$2, 54, 12, 1515);
     			attr_dev(input1, "id", "error-lang");
     			attr_dev(input1, "class", "post-input svelte-1285mui");
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "name", "error-lang");
     			attr_dev(input1, "placeholder", "言語を入力");
-    			add_location(input1, file$2, 103, 12, 2931);
+    			add_location(input1, file$2, 61, 12, 1769);
     			attr_dev(button, "id", "error-save-btn");
     			attr_dev(button, "type", "submit");
     			button.disabled = /*isSubmitting*/ ctx[1];
     			attr_dev(button, "class", "svelte-1285mui");
-    			add_location(button, file$2, 112, 12, 3207);
-    			add_location(form, file$2, 78, 8, 2049);
+    			add_location(button, file$2, 70, 12, 2045);
+    			add_location(form, file$2, 36, 8, 887);
     			attr_dev(div0, "class", "post-form");
-    			add_location(div0, file$2, 77, 4, 2017);
-    			add_location(div1, file$2, 75, 0, 1971);
+    			add_location(div0, file$2, 35, 4, 855);
+    			add_location(div1, file$2, 33, 0, 809);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2648,10 +2648,10 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[7]),
-    					listen_dev(textarea0, "input", /*textarea0_input_handler*/ ctx[8]),
-    					listen_dev(textarea1, "input", /*textarea1_input_handler*/ ctx[9]),
-    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[10]),
+    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[6]),
+    					listen_dev(textarea0, "input", /*textarea0_input_handler*/ ctx[7]),
+    					listen_dev(textarea1, "input", /*textarea1_input_handler*/ ctx[8]),
+    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[9]),
     					listen_dev(form, "submit", prevent_default(/*handleSubmit*/ ctx[0]), false, true, false)
     				];
 
@@ -2709,10 +2709,6 @@ var app = (function () {
 
     const postUrl = 'http://localhost:3000/api/v1/posts';
 
-    function errorCodeToJson(obj) {
-    	return JSON.stringify(obj);
-    }
-
     function instance$2($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('CreatePost', slots, []);
@@ -2731,18 +2727,10 @@ var app = (function () {
     			solution_code: errorSourceCode,
     			source_code: errorSolutionCode,
     			lang
-    		}; // "error_title": errorTitle,
-    		// "solution_code": errorSourceCode,
-    		// "source_code": errorSolutionCode,
+    		};
 
-    		// "lang": lang
-    		const toData = errorCodeToJson(postErrorData);
+    		postAxios(postUrl, postErrorData);
 
-    		console.log(toData);
-    		postAxios(postUrl, toData);
-
-    		// console.log(postErrorData);
-    		// new PostErrorInfo(postUrl, postErrorData);
     		setTimeout(
     			() => {
     				$$invalidate(1, isSubmitting = false);
@@ -2752,37 +2740,11 @@ var app = (function () {
     	};
 
     	function postAxios(url, obj) {
-    		axios.post(url, obj, {
-    			headers: { "Content-Type": "application/json" }
-    		}).then(res => {
-    			console.log(res.data);
+    		axios.post(url, obj).then(res => {
+    			return res;
     		}).catch(err => {
     			console.log("err:", err);
     		});
-    	}
-
-    	class PostErrorInfo {
-    		// eslint-disable-next-line @typescript-eslint/naming-convention
-    		constructor(postUrl, Obj) {
-    			this.postUrl = postUrl;
-    			this.Obj = Obj;
-    			this.postUrl = postUrl;
-    			this.postObj = this.errorCodeToJson(Obj);
-    			this.postServer();
-    		}
-
-    		// convert postData to json
-    		errorCodeToJson(obj) {
-    			return JSON.stringify(obj);
-    		}
-
-    		async postServer() {
-    			await axios.post(this.postUrl, this.postObj).then(res => {
-    				console.log(res.data);
-    			}).catch(err => {
-    				console.log("err:", err);
-    			});
-    		}
     	}
     	const writable_props = [];
 
@@ -2820,9 +2782,7 @@ var app = (function () {
     		errorSolutionCode,
     		lang,
     		handleSubmit,
-    		errorCodeToJson,
-    		postAxios,
-    		PostErrorInfo
+    		postAxios
     	});
 
     	$$self.$inject_state = $$props => {
@@ -2844,7 +2804,6 @@ var app = (function () {
     		errorSourceCode,
     		errorSolutionCode,
     		lang,
-    		PostErrorInfo,
     		input0_input_handler,
     		textarea0_input_handler,
     		textarea1_input_handler,
@@ -2855,7 +2814,7 @@ var app = (function () {
     class CreatePost extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { handleSubmit: 0, PostErrorInfo: 6 });
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { handleSubmit: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -2870,14 +2829,6 @@ var app = (function () {
     	}
 
     	set handleSubmit(value) {
-    		throw new Error("<CreatePost>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get PostErrorInfo() {
-    		return this.$$.ctx[6];
-    	}
-
-    	set PostErrorInfo(value) {
     		throw new Error("<CreatePost>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }

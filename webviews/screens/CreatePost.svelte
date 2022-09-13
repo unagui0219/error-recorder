@@ -8,7 +8,7 @@
         source_code: string;
         lang: string;
     };
-    
+
     const postUrl: string = 'http://localhost:3000/api/v1/posts';
     let isSubmitting = false;
     let errorTitle: string;
@@ -26,28 +26,19 @@
             source_code: errorSolutionCode,
             lang: lang
         };
-        const toData = errorCodeToJson(postErrorData);
-        console.log(toData);
-        postAxios(postUrl, toData);
+        postAxios(postUrl, postErrorData);
         setTimeout(() => {
             isSubmitting = false
         }, 1000);
     };
 
-    function errorCodeToJson(obj: PostDataObject): string {
-        return JSON.stringify(obj);
-    };
-
-    function postAxios(url: string, obj: string) {
-        axios.post(url, obj, {
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        }).then(res => {
-            console.log(res.data);
-        }).catch(err => {
-            console.log("err:", err);
-        });
+    function postAxios(url: string, obj: PostDataObject) {
+        axios.post(url, obj)
+            .then(res => {
+                return res;
+            }).catch(err => {
+                console.log("err:", err);
+            });
     };
 
 </script>
