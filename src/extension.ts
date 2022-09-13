@@ -1,12 +1,10 @@
 import * as vscode from 'vscode';
 import { SidebarProvider } from "./SidebarProvider";
-import { PostErrorInfo } from './post';
 import { ViewIndexPanel } from './ViewIndexPanel';
 import { saveStorage } from './globalState';
 
 // commands
 export const extensionCommandId: string = 'error-recorder.errorRecorder';
-export const postCommandId: string = 'error-recorder.postError';
 export const saveStorageCommandId: string = 'error-recorder.saveStorage';
 export const indexWebviewCommandId: string = 'error-recorder.index';
 export const sidebarCommandId: string = 'errorRecorderSidebar';
@@ -39,15 +37,6 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			extensionCommandId, async () => { }
-		)
-	);
-
-	// Post
-	context.subscriptions.push(
-		vscode.commands.registerCommand(
-			postCommandId, () => {
-				// new PostErrorInfo('https://api/v1/posts', dataObj);
-			}
 		)
 	);
 
