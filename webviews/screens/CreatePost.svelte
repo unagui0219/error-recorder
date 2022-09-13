@@ -95,11 +95,7 @@
                 checked 
             />
             <label for="online_flag">オンラインにアップロードする</label>
-            <button
-                on:click={savePost}
-                disabled={isSubmitting}
-            >保存する
-            </button>
+            <button on:click={savePost} disabled={isSubmitting}>保存する</button>
         </form>
     </div>
 </div>
