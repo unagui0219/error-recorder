@@ -55,8 +55,11 @@
         margin-bottom: 1rem;
     }
     .post-box_content h2 {
-        font-size: 2rem;
+        font-size: 1.5rem;
         padding-bottom: 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .post-box_content span {
         font-weight: bold;
