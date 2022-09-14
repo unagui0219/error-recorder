@@ -8,34 +8,43 @@
     };
 </script>
 
-<div class="title-box">
-    <h1>Error Recorder List</h1>
-    <hr />
+<div class="page-box">
+    <div class="title-box">
+        <h1>エラーポスト一覧</h1>
+        <hr />
+    </div>
+
+    {#each posts as post}
+        <div class="post-box">
+            <div class="post-box_content">
+                <h2 class="title">{post[1].title}</h2>
+                <p><span>使用言語：</span>{post[1].lang}</p>
+                <p><span>解決策：</span>{post[1].solutionCode}</p>
+            </div>
+            <div class="post-box_button_box">
+                <button class="big-btn" on:click={() => toShow(post[0])}
+                    >詳細を見る</button
+                >
+                <button>編集</button>
+                <button class="delete-btn" on:click={() => removePost(post[0])}
+                    >削除</button
+                >
+            </div>
+        </div>
+    {/each}
 </div>
 
-{#each posts as post}
-    <div class="post-box">
-        <div class="post-box_content">
-            <h2 class="title">{post[1].title}</h2>
-            <p><span>解決策：</span>{post[1].solutionCode}</p>
-        </div>
-        <div class="post-box_button_box">
-            <button class="big-btn" on:click={() => toShow(post[0])}
-                >詳細を見る</button
-            >
-            <button>編集</button>
-            <button class="delete-btn" on:click={() => removePost(post[0])}
-                >削除</button
-            >
-        </div>
-    </div>
-{/each}
-
 <style>
+    .page-box {
+        padding: 2rem 10% 0;
+    }
     .title-box {
         margin-top: 1rem;
         margin-bottom: 2rem;
         color: #c7254e;
+    }
+    .title-box h1 {
+        font-size: 3rem;
     }
     .post-box {
         border: 2px solid white !important;
