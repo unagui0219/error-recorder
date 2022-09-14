@@ -47,10 +47,6 @@
         "title": "errorRecorderIndex"
       },
       {
-        "command": "error-recorder.postError",
-        "title": "postErrorCode"
-      },
-      {
         "command": "error-recorder.saveStorage",
         "title": "saveStorage"
       }
