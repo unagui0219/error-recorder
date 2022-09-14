@@ -20,9 +20,6 @@
 <main>
     {#if state.page === "search"}
         <Search
-            toShow={() => {
-                state = { page: "show" };
-            }}
             toCreate={() => {
                 state = { page: "create" };
             }}
@@ -37,7 +34,11 @@
             searchへ
         </button>
     {:else if state.page === "create"}
-        <CreatePost />
+        <CreatePost
+            toSearch={() => {
+                state = { page: "search" };
+            }}
+        />
     {:else if state.page === "edit"}
         <h1>Edit</h1>
         <button

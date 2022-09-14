@@ -14,13 +14,10 @@
         <input type="search" placeholder="errorを入力" autofocus />
     </div>
     <div class="sidebar-btn">
-        <button on:click={toShow}> showを表示 </button>
+        <button on:click={toIndex}> エラーポスト一覧 </button>
     </div>
     <div class="sidebar-btn">
-        <button on:click={toIndex}> エラーポスト一覧を表示 </button>
-    </div>
-    <div class="sidebar-btn">
-        <button on:click={toCreate}> エラーポストを作成 </button>
+        <button on:click={toCreate}> エラーポスト作成 </button>
     </div>
 </div>
 
