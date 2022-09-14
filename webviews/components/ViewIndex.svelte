@@ -3,6 +3,9 @@
     const toShow = async (i: any) => {
         await tsvscode.postMessage({ type: "showPost", value: i });
     };
+    const toEdit = async (i: any) => {
+        await tsvscode.postMessage({ type: "editPost", value: i });
+    };
     const removePost = async (i: any) => {
         await tsvscode.postMessage({ type: "removePost", value: i });
     };
@@ -25,7 +28,7 @@
                 <button class="big-btn" on:click={() => toShow(post[0])}
                     >詳細を見る</button
                 >
-                <button>編集</button>
+                <button on:click={() => toEdit(post[0])}>編集</button>
                 <button class="delete-btn" on:click={() => removePost(post[0])}
                     >削除</button
                 >

@@ -43,7 +43,9 @@
         };
 
         if (online) {
-            postAxios(postUrl, postErrorData);
+            postAxios(postUrl, postErrorData).then(data => {
+                console.log(data["data"]["post"]["password_digest"]);
+            });
             setTimeout(() => {
                 isSubmitting = false;
             }, 1000);
@@ -57,10 +59,10 @@
     };
 
     function postAxios(url: string, obj: PostDataObject) {
-        axios
+        return axios
             .post(url, obj)
             .then((res) => {
-                return res;
+                return res.data;
             })
             .catch((err) => {
                 console.log("err:", err);

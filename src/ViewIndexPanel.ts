@@ -105,6 +105,10 @@ export class ViewIndexPanel {
                     ViewShowPanel.createOrShow(this._extensionUri, oneData);
                     break;
                 }
+                case "editPost": {
+                    //Post時にその投稿のpassword_digestを他のデータと一緒に保存して、それをキーにして実装。
+                    const oneData = [data.value, this._context.globalState.get(data.value)];
+                }
                 case "removePost": {
                     const y = await vscode.window.showInformationMessage(
                         "本当にエラーポストを削除しますか？",
