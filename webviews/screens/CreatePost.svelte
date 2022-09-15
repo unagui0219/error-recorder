@@ -24,10 +24,11 @@
     let errorSolutionCode: string;
     let lang: string;
     let online = true;
+    
 
     export const handleSubmit = async () => {
         isSubmitting = true;
-
+        
         // request body
         const postErrorData: PostDataObject = {
             error_title: errorTitle,
@@ -42,14 +43,16 @@
             lang: lang,
         };
 
+        let passwordDigest = null;
         if (online) {
-            postAxios(postUrl, postErrorData).then(data => {
-                console.log(data["data"]["post"]["password_digest"]);
-            });
+            let axiosData = await get_password_digest(postUrl, postErrorData);
             setTimeout(() => {
                 isSubmitting = false;
             }, 1000);
-        }
+            passwordDigest = axiosData;
+        };
+
+        const key = passwordDigest;
         await tsvscode.postMessage({
             type: "savePost",
             value: PostLocalDataObject,
@@ -58,16 +61,20 @@
         toSearch();
     };
 
-    function postAxios(url: string, obj: PostDataObject) {
-        return axios
-            .post(url, obj)
-            .then((res) => {
-                return res.data;
-            })
-            .catch((err) => {
-                console.log("err:", err);
-            });
-    }
+    function get_password_digest(url: string, obj: PostDataObject) {
+        return new Promise((resolve, reject) => {
+            axios
+                .post(url, obj)
+                .then(res => {
+                    let password_digest = res.data["data"]["post"]["password_digest"];
+                    resolve(password_digest);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+
+    };
 </script>
 
 <div>
