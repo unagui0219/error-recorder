@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
 import { ViewShowPanel } from "./ViewShowPanel";
+import { ViewEditPanel } from "./ViewEditPanel";
 type PostObj = {
     title: string;
     solutionCode: string;
@@ -107,7 +108,10 @@ export class ViewIndexPanel {
                 }
                 case "editPost": {
                     //Post時にその投稿のpassword_digestを他のデータと一緒に保存して、それをキーにして実装。
+                    console.log(data.value);
                     const oneData = [data.value, this._context.globalState.get(data.value)];
+                    ViewEditPanel.createOrShow(this._extensionUri, oneData);
+                    break;
                 }
                 case "removePost": {
                     const y = await vscode.window.showInformationMessage(

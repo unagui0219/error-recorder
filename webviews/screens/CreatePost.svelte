@@ -15,6 +15,7 @@
         solutionCode: string;
         sourceCode: string;
         lang: string;
+        password_digest: any;
     };
 
     const postUrl: string = "http://localhost:3000/api/v1/posts";
@@ -28,7 +29,8 @@
 
     export const handleSubmit = async () => {
         isSubmitting = true;
-        
+        let passwordDigest = null;
+
         // request body
         const postErrorData: PostDataObject = {
             error_title: errorTitle,
@@ -36,14 +38,6 @@
             source_code: errorSolutionCode,
             lang: lang,
         };
-        const PostLocalDataObject: PostLocalDataObject = {
-            title: errorTitle,
-            solutionCode: errorSourceCode,
-            sourceCode: errorSolutionCode,
-            lang: lang,
-        };
-
-        let passwordDigest = null;
         if (online) {
             let axiosData = await get_password_digest(postUrl, postErrorData);
             setTimeout(() => {
@@ -52,7 +46,15 @@
             passwordDigest = axiosData;
         };
 
-        const key = passwordDigest;
+        const PostLocalDataObject: PostLocalDataObject = {
+            title: errorTitle,
+            solutionCode: errorSourceCode,
+            sourceCode: errorSolutionCode,
+            lang: lang,
+            password_digest: passwordDigest,
+        };
+
+        //Post時にその投稿のpassword_digestを他のデータと一緒に保存して、それをキーにして実装
         await tsvscode.postMessage({
             type: "savePost",
             value: PostLocalDataObject,
