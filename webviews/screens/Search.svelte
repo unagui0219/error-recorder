@@ -11,7 +11,6 @@
             value: posts,
         });
     };
-    // console.log(posts.indexOf("error"));
 
     export const search = async () => {
         notFound = false;
@@ -23,11 +22,9 @@
                 return [];
             }
         });
-        console.log(results);
         if (results.length) {
             const resultsFormatted = new Map<string, {}>();
-            console.log(resultsFormatted);
-            for (var i = 0; i < Math.floor(results.length / 2); i = i + 2) {
+            for (var i = 0; i < results.length; i = i + 2) {
                 resultsFormatted.set(results[i], results[i + 1]);
             }
             let objResult = Object.fromEntries(resultsFormatted);
