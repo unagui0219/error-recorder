@@ -5,6 +5,7 @@ type PostObj = {
 	solutionCode: string;
 	sourceCode: string;
 	lang: string;
+	passwordDigest: string;
 };
 
 type OnePostObj = [string, PostObj];
@@ -121,7 +122,6 @@ export class ViewEditPanel {
 		const scriptUri = webview.asWebviewUri(
 			vscode.Uri.joinPath(this._extensionUri, "out/compiled", "ViewEdit.js")
 		);
-
 
 		// Uri to load styles into webview
 		const stylesResetUri = webview.asWebviewUri(vscode.Uri.joinPath(

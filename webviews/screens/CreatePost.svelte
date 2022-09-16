@@ -16,6 +16,7 @@
         sourceCode: string;
         lang: string;
         password_digest: any;
+        id: number;
     };
 
     const postUrl: string = "http://localhost:3000/api/v1/posts";
@@ -25,11 +26,10 @@
     let errorSolutionCode: string;
     let lang: string;
     let online = true;
-    
 
     export const handleSubmit = async () => {
         isSubmitting = true;
-        let passwordDigest = null;
+        let resUniqueData: any = [];
 
         // request body
         const postErrorData: PostDataObject = {
@@ -38,12 +38,13 @@
             source_code: errorSolutionCode,
             lang: lang,
         };
+
         if (online) {
-            let axiosData = await get_password_digest(postUrl, postErrorData);
+            let axiosData = await get_uniqueData(postUrl, postErrorData);
             setTimeout(() => {
                 isSubmitting = false;
             }, 1000);
-            passwordDigest = axiosData;
+            resUniqueData = axiosData;
         };
 
         const PostLocalDataObject: PostLocalDataObject = {
@@ -51,10 +52,12 @@
             solutionCode: errorSourceCode,
             sourceCode: errorSolutionCode,
             lang: lang,
-            password_digest: passwordDigest,
+            password_digest: resUniqueData[1],
+            id: resUniqueData[0],
         };
 
-        //Post時にその投稿のpassword_digestを他のデータと一緒に保存して、それをキーにして実装
+        console.log(`PostLocalDataObject: ${PostLocalDataObject}`);
+
         await tsvscode.postMessage({
             type: "savePost",
             value: PostLocalDataObject,
@@ -63,19 +66,21 @@
         toSearch();
     };
 
-    function get_password_digest(url: string, obj: PostDataObject) {
+    function get_uniqueData(url: string, obj: PostDataObject) {
         return new Promise((resolve, reject) => {
             axios
                 .post(url, obj)
                 .then(res => {
+                    const uniqueData: any[] = [];
+                    let id = res.data["data"]["post"]["id"];
                     let password_digest = res.data["data"]["post"]["password_digest"];
-                    resolve(password_digest);
+                    uniqueData.push(id, password_digest);
+                    resolve(uniqueData);
                 })
                 .catch(err => {
                     reject(err);
                 });
         });
-
     };
 </script>
 
