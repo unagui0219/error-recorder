@@ -1,18 +1,71 @@
 <script lang="ts">
     import PageTitle from "../ui/PageTitle.svelte";
     export let toCreate: () => void;
-    export let toShow: () => void;
+    $: searchBox = "";
+    $: notFound = false;
+    const posts = Object.entries(postData);
     const toIndex = async () => {
-        await tsvscode.postMessage({ type: "startViewIndex" });
+        await tsvscode.postMessage({
+            type: "startViewIndex",
+            dataType: "all",
+            value: posts,
+        });
     };
+    // console.log(posts.indexOf("error"));
+
+    export const search = async () => {
+        notFound = false;
+        let results: any;
+        results = posts.flatMap((v) => {
+            if (v[1].title.toLowerCase().includes(searchBox.toLowerCase())) {
+                return v;
+            } else {
+                return [];
+            }
+        });
+        console.log(results);
+        if (results.length) {
+            const resultsFormatted = new Map<string, {}>();
+            console.log(resultsFormatted);
+            for (var i = 0; i < Math.floor(results.length / 2); i = i + 2) {
+                resultsFormatted.set(results[i], results[i + 1]);
+            }
+            let objResult = Object.fromEntries(resultsFormatted);
+
+            await tsvscode.postMessage({
+                type: "startViewIndex",
+                dataType: "search",
+                value: objResult,
+            });
+        } else {
+            notFound = true;
+        }
+    };
+
+    // $: if (postData.indexOf(searchBox)) {
+    //     async () => {
+    //         await tsvscode.postMessage({ type: "startViewIndex" });
+    //     };
+    // } else {
+    // }
 </script>
 
 <div>
     <PageTitle title={"エラー検索"} />
     <div class="search-input">
         <!-- svelte-ignore a11y-autofocus -->
-        <input type="search" placeholder="errorを入力" autofocus />
+        <form on:submit|preventDefault={search}>
+            <input
+                type="search"
+                placeholder="errorを入力"
+                bind:value={searchBox}
+                autofocus
+            />
+        </form>
     </div>
+    {#if notFound}
+        <div id="search-error">検索結果がありません。</div>
+    {/if}
     <div class="sidebar-btn">
         <button on:click={toIndex}> エラーポスト一覧 </button>
     </div>
