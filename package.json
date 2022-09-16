@@ -22,7 +22,7 @@
         {
           "id": "errorRecorder-sidebar-view",
           "title": "ErrorRecorder",
-          "icon": "media/checklist.svg"
+          "icon": "media/logo.svg"
         }
       ]
     },
@@ -32,7 +32,7 @@
           "type": "webview",
           "id": "errorRecorderSidebar",
           "name": "ErrorRecorder",
-          "icon": "media/checklist.svg",
+          "icon": "media/logo.svg",
           "contextualTitle": "ErrorRecorder"
         }
       ]
