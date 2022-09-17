@@ -93,6 +93,7 @@
                 name="errorTitle"
                 bind:value={errorTitle}
                 placeholder="エラータイトルを入力"
+                required
                 autofocus
             />
             <textarea
@@ -100,6 +101,7 @@
                 class="post-input post-text"
                 name="error-source-code"
                 bind:value={errorSourceCode}
+                required
                 placeholder="エラーのソースを入力"
             />
             <textarea
@@ -107,6 +109,7 @@
                 class="post-input post-text"
                 name="error-solution-code"
                 bind:value={errorSolutionCode}
+                required
                 placeholder="解決用のコードを入力"
             />
             <input
@@ -115,12 +118,14 @@
                 type="text"
                 name="error-lang"
                 bind:value={lang}
+                required
                 placeholder="言語を入力"
             />
             <input
                 id="online_flag"
                 class="post-input"
                 type="checkbox"
+                required
                 bind:checked={online}
             />
             <label for="online_flag">オンラインにアップロードする</label>
