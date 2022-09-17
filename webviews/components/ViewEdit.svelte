@@ -1,6 +1,8 @@
 <script lang="ts">
 	import axios from "axios";
+	let postkey = postOneData[0];
 	let post = postOneData[1];
+	export let toSearch: () => void;
 
 	type PutDataObject = {
 		error_title: string;
@@ -45,18 +47,17 @@
 				// alert(`${errorTitle}の更新に失敗しました`);
 				console.log(err);
 			});
-
-			setTimeout(() => {
-				isSubmitting = false;
-			}, 1000);
 		};
-
+		
 		await tsvscode.postMessage({
-			type: "savePost",
+			type: "updatePost",
 			value: putErrorData,
+			postKey: postkey,
 		});
-		isSubmitting = false;
-		// toSearch();
+		setTimeout(() => {
+			isSubmitting = false;
+		}, 1000);
+		toSearch();
   };
 </script>
 
@@ -72,7 +73,8 @@
 					class="post-input"
 					type="text"
 					name="errorTitle"
-					bind:value={post.title}
+					placeholder={post.title}
+					bind:value={errorTitle}
 				/>
 				<p><span>使用言語</span>
 					<input

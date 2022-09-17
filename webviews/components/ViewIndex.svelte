@@ -1,11 +1,9 @@
 <script lang="ts">
     let posts = Object.entries(postData);
-    console.log(posts);
     const toShow = async (i: any) => {
         await tsvscode.postMessage({ type: "showPost", value: i });
     };
     const toEdit = async (i: any) => {
-        console.log(`Viewindexのi: ${i}`);
         await tsvscode.postMessage({ type: "editPost", value: i });
     };
     const removePost = async (i: any) => {

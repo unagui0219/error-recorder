@@ -101,10 +101,8 @@ export class ViewShowPanel {
 		webview.onDidReceiveMessage(async (data) => {
 			switch (data.type) {
 				case "editPost": {
-					//Post時にその投稿のpassword_digestを他のデータと一緒に保存して、それをキーにして実装。
-					console.log(data.value);
 					const oneData = [data.value, this._context.globalState.get(data.value)];
-					ViewEditPanel.createOrShow(this._extensionUri, oneData);
+					ViewEditPanel.createOrShow(this._extensionUri, oneData, this._context);
 					break;
 				}
 				case "onInfo": {

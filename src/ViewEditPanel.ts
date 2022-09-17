@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
+import { ViewIndexPanel } from "./ViewIndexPanel";
+import { SidebarProvider } from "./SidebarProvider";
 type PostObj = {
 	title: string;
 	solutionCode: string;
@@ -22,9 +24,11 @@ export class ViewEditPanel {
 	private readonly _panel: vscode.WebviewPanel;
 	private readonly _extensionUri: vscode.Uri;
 	private readonly _postData: OnePostObj;
+	private readonly _context: vscode.ExtensionContext;
 	private _disposables: vscode.Disposable[] = [];
+	private _states: vscode.Memento & { setKeysForSync(keys: readonly string[]): void; };
 
-	public static createOrShow(extensionUri: vscode.Uri, postData: OnePostObj) {
+	public static createOrShow(extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
 		const column = vscode.window.activeTextEditor
 			? vscode.window.activeTextEditor.viewColumn
 			: undefined;
@@ -53,7 +57,7 @@ export class ViewEditPanel {
 			}
 		);
 
-		ViewEditPanel.currentPanel = new ViewEditPanel(panel, extensionUri, postData);
+		ViewEditPanel.currentPanel = new ViewEditPanel(panel, extensionUri, postData, context);
 	}
 
 	public static kill() {
@@ -61,14 +65,17 @@ export class ViewEditPanel {
 		ViewEditPanel.currentPanel = undefined;
 	}
 
-	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj) {
-		ViewEditPanel.currentPanel = new ViewEditPanel(panel, extensionUri, postData);
+	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
+		ViewEditPanel.currentPanel = new ViewEditPanel(panel, extensionUri, postData, context);
 	}
 
-	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj) {
+	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
 		this._panel = panel;
 		this._extensionUri = extensionUri;
 		this._postData = postData;
+		this._context = context;
+		// this._states = new SidebarProvider(this._extensionUri, context).state;
+		// this._states = this._context.globalState;
 
 		// Set the webview's initial html content
 		this._update();
@@ -99,6 +106,23 @@ export class ViewEditPanel {
 		this._panel.webview.html = this._getHtmlForWebview(webview);
 		webview.onDidReceiveMessage(async (data) => {
 			switch (data.type) {
+				case "updatePost": {
+					if (!data.value) {
+						return;
+					};
+					const id = data.postKey;
+					console.log(`id: ${id}`);
+					this._states.update(id, data.value);
+					const updatePost = this._states.get(id);
+					if (updatePost) {
+						ViewIndexPanel.kill();
+            const allData = this._states._value || "none";
+						ViewIndexPanel.createOrShow(this._context, this._extensionUri, allData);
+						break;
+					} else {
+						vscode.window.showErrorMessage('更新できませんでした。');
+					};
+				}
 				case "onInfo": {
 					if (!data.value) {
 						return;
@@ -152,6 +176,7 @@ export class ViewEditPanel {
                 <link href="${stylesMainUri}" rel="stylesheet">
                 <link href="${stylesCustomUri}" rel="stylesheet">
                 <script nonce="${nonce}">
+								const tsvscode = acquireVsCodeApi();
                 let postOneData = ${JSON.stringify(this._postData)};
                 </script>
 			</head>

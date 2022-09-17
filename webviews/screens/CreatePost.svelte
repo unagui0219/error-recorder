@@ -41,9 +41,6 @@
 
         if (online) {
             let axiosData = await get_uniqueData(postUrl, postErrorData);
-            setTimeout(() => {
-                isSubmitting = false;
-            }, 1000);
             resUniqueData = axiosData;
         };
 
@@ -60,7 +57,9 @@
             type: "savePost",
             value: PostLocalDataObject,
         });
-        isSubmitting = false;
+        setTimeout(() => {
+            isSubmitting = false;
+        }, 1000);
         toSearch();
     };
 

@@ -4,7 +4,6 @@
 
 	const toEdit = async (i: any) => {
 		await tsvscode.postMessage({ type: "editPost", value: i });
-		console.log(`i: ${i}`);
   };
 </script>
 
