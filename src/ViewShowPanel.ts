@@ -37,7 +37,7 @@ export class ViewShowPanel {
 		// Otherwise, create a new panel.
 		const panel = vscode.window.createWebviewPanel(
 			ViewShowPanel.viewType,
-			"ポスト一覧：Error Recorder",
+			"投稿詳細：Error Recorder",
 			column || vscode.ViewColumn.One,
 			{
 				// Enable javascript in the webview

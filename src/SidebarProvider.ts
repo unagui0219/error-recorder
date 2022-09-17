@@ -24,8 +24,17 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
         case "startViewIndex": {
-          const allData = this.state._value || "none";
-          ViewIndexPanel.createOrShow(this.context, this._extensionUri, allData);
+          ViewIndexPanel.kill();
+          if (data.dataType === "all") {
+            const allData = this.state._value;
+            console.log(allData);
+            ViewIndexPanel.createOrShow(this.context, this._extensionUri, allData);
+
+          } else if (data.dataType === "search") {
+            const searchData = data.value;
+            console.log(searchData);
+            ViewIndexPanel.createOrShow(this.context, this._extensionUri, searchData);
+          };
           break;
         }
         case "savePost": {
@@ -99,6 +108,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         <link href="${styleMainUri}" rel="stylesheet">
         <script nonce="${nonce}">
         const tsvscode = acquireVsCodeApi();
+        const postData = ${JSON.stringify(this.state._value)};
         </script>
 			</head>
       <body>
