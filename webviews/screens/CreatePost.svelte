@@ -112,7 +112,6 @@
                 id="online_flag"
                 class="post-input"
                 type="checkbox"
-                required
                 bind:checked={online}
             />
             <label for="online_flag">オンラインにアップロードする</label>
