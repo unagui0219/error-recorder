@@ -7,7 +7,6 @@
 		solution_code: string;
 		source_code: string;
 		lang: string;
-		password_digest: any;
   };
 
 	const putUrl: string = `http://localhost:3000/api/v1/post/${post.id}`;
@@ -20,12 +19,6 @@
 
 	export const handleSubmit = async () => {
 		isSubmitting = true;
-		let passwordDigest = null;
-
-		// idとpassword_digestが等しい場合に、update処理する
-		// if (post.id, post.password_digest) {
-
-		// };
 
 		// request body
 		const putErrorData: PutDataObject = {
@@ -33,20 +26,25 @@
 			solution_code: errorSourceCode,
 			source_code: errorSolutionCode,
 			lang: lang,
-			password_digest: passwordDigest,
 		};
 
+		console.log(putErrorData);
+
 		if (online) {
-			axios
-				.put(putUrl, putErrorData)
-				.then(res => {
-					console.log(res);
-					alert(`${putErrorData.error_title}を更新しました`);
-				})
-				.catch(err => {
-					alert(`${putErrorData.error_title}の更新に失敗しました`);
-					console.log(err);
-				});
+			axios.put(putUrl, putErrorData, {
+				params: {
+					password: post.passwordDigest,
+				}
+			})
+			.then(res => {
+				console.log(res);
+				console.log('status: 200 OK');
+				// alert(`${errorTitle}を更新しました`);
+			})
+			.catch(err => {
+				// alert(`${errorTitle}の更新に失敗しました`);
+				console.log(err);
+			});
 
 			setTimeout(() => {
 				isSubmitting = false;

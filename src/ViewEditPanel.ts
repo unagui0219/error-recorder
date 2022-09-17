@@ -6,6 +6,7 @@ type PostObj = {
 	sourceCode: string;
 	lang: string;
 	passwordDigest: string;
+	id: number;
 };
 
 type OnePostObj = [string, PostObj];

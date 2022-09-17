@@ -56,8 +56,6 @@
             id: resUniqueData[0],
         };
 
-        console.log(`PostLocalDataObject: ${PostLocalDataObject}`);
-
         await tsvscode.postMessage({
             type: "savePost",
             value: PostLocalDataObject,

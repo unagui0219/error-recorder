@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
+import { ViewEditPanel } from "./ViewEditPanel";
 type PostObj = {
 	title: string;
 	solutionCode: string;
@@ -20,9 +21,10 @@ export class ViewShowPanel {
 	private readonly _panel: vscode.WebviewPanel;
 	private readonly _extensionUri: vscode.Uri;
 	private readonly _postData: OnePostObj;
+	private readonly _context: vscode.ExtensionContext;
 	private _disposables: vscode.Disposable[] = [];
 
-	public static createOrShow(extensionUri: vscode.Uri, postData: OnePostObj) {
+	public static createOrShow(extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
 		const column = vscode.window.activeTextEditor
 			? vscode.window.activeTextEditor.viewColumn
 			: undefined;
@@ -51,7 +53,7 @@ export class ViewShowPanel {
 			}
 		);
 
-		ViewShowPanel.currentPanel = new ViewShowPanel(panel, extensionUri, postData);
+		ViewShowPanel.currentPanel = new ViewShowPanel(panel, extensionUri, postData, context);
 	}
 
 	public static kill() {
@@ -59,14 +61,15 @@ export class ViewShowPanel {
 		ViewShowPanel.currentPanel = undefined;
 	}
 
-	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj) {
-		ViewShowPanel.currentPanel = new ViewShowPanel(panel, extensionUri, postData);
+	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
+		ViewShowPanel.currentPanel = new ViewShowPanel(panel, extensionUri, postData, context);
 	}
 
-	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj) {
+	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
 		this._panel = panel;
 		this._extensionUri = extensionUri;
 		this._postData = postData;
+		this._context = context;
 
 		// Set the webview's initial html content
 		this._update();
@@ -97,6 +100,13 @@ export class ViewShowPanel {
 		this._panel.webview.html = this._getHtmlForWebview(webview);
 		webview.onDidReceiveMessage(async (data) => {
 			switch (data.type) {
+				case "editPost": {
+					//Post時にその投稿のpassword_digestを他のデータと一緒に保存して、それをキーにして実装。
+					console.log(data.value);
+					const oneData = [data.value, this._context.globalState.get(data.value)];
+					ViewEditPanel.createOrShow(this._extensionUri, oneData);
+					break;
+				}
 				case "onInfo": {
 					if (!data.value) {
 						return;
@@ -151,6 +161,7 @@ export class ViewShowPanel {
                 <link href="${stylesMainUri}" rel="stylesheet">
                 <link href="${stylesCustomUri}" rel="stylesheet">
                 <script nonce="${nonce}">
+								const tsvscode = acquireVsCodeApi();
                 let postOneData = ${JSON.stringify(this._postData)};
                 </script>
 			</head>
