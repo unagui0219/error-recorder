@@ -39,7 +39,7 @@ export class ViewIndexPanel {
         // Otherwise, create a new panel.
         const panel = vscode.window.createWebviewPanel(
             ViewIndexPanel.viewType,
-            "ポスト一覧：Error Recorder",
+            "投稿一覧：Error Recorder",
             column || vscode.ViewColumn.One,
             {
                 // Enable javascript in the webview
@@ -113,7 +113,7 @@ export class ViewIndexPanel {
                 }
                 case "removePost": {
                     const y = await vscode.window.showInformationMessage(
-                        "本当にエラーポストを削除しますか？",
+                        "本当にエラー投稿を削除しますか？",
                         "はい",
                         "いいえ"
                     );

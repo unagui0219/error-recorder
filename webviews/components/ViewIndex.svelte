@@ -1,5 +1,5 @@
 <script lang="ts">
-    let posts = Object.entries(postData);
+    let posts = Object.entries(postData).reverse();
     const toShow = async (i: any) => {
         await tsvscode.postMessage({ type: "showPost", value: i });
     };
@@ -13,7 +13,7 @@
 
 <div class="page-box">
     <div class="title-box">
-        <h1>エラーポスト一覧</h1>
+        <h1>エラー投稿一覧</h1>
         <hr />
     </div>
 
