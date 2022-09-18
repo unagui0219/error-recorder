@@ -11,6 +11,13 @@
 		lang: string;
   };
 
+	type PutLocalDataObject = {
+		title: string;
+		solutionCode: string;
+		sourceCode: string;
+		lang: string;
+  };
+
 	const putUrl: string = `http://localhost:3000/api/v1/posts/${post.id}`;
 	let isSubmitting = false;
 	let errorTitle: string;
@@ -18,6 +25,11 @@
 	let errorSolutionCode: string;
 	let lang: string;
   let online = true;
+	
+	errorTitle = post.title;
+	errorSourceCode = post.sourceCode;
+	errorSolutionCode = post.solutionCode;
+	lang = post.lang;
 
 	export const handleSubmit = async () => {
 		isSubmitting = true;
@@ -43,10 +55,17 @@
 				console.log(err);
 			});
 		};
+
+		const PutLocalDataObject: PutLocalDataObject = {
+			title: errorTitle,
+			solutionCode: errorSourceCode,
+			sourceCode: errorSolutionCode,
+			lang: lang,
+    };
 		
 		await tsvscode.postMessage({
 			type: "updatePost",
-			value: putErrorData,
+			value: PutLocalDataObject,
 			postKey: postkey,
 		});
 		setTimeout(() => {
@@ -68,15 +87,14 @@
 					class="post-input"
 					type="text"
 					name="errorTitle"
-					placeholder={post.title}
 					bind:value={errorTitle}
 				/>
 				<p><span>使用言語</span>
 					<input
 						class="post-input"
 						type="text"
-						name="error-lang"
-						bind:value={post.lang}
+						name="lang"
+						bind:value={lang}
 					/>
 				</p>
 			</div>
@@ -86,16 +104,16 @@
 				<h3>ソースコード</h3>
 				<textarea
 					class="post-input post-text"
-					name="error-source-code"
-					bind:value={post.sourceCode}
+					name="errorSourceCode"
+					bind:value={errorSourceCode}
 				/>
 			</div>
 			<div class="bottom-block_section">
 				<h3>解決策</h3>
 				<textarea
 					class="post-input post-text"
-					name="error-solution-code"
-					bind:value={post.solutionCode}
+					name="errorSolutionCode"
+					bind:value={errorSolutionCode}
 				/>
 			</div>
 		</div>

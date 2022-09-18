@@ -102,7 +102,6 @@ export class ViewIndexPanel {
             switch (data.type) {
                 case "showPost": {
                     const oneData = [data.value, this._context.globalState.get(data.value)];
-                    console.log(oneData);
                     ViewShowPanel.createOrShow(this._extensionUri, oneData, this._context);
                     break;
                 }

@@ -114,7 +114,7 @@ export class ViewEditPanel {
 						ViewIndexPanel.kill();
             const allData = this._context.globalState._value || "none";
 						ViewIndexPanel.createOrShow(this._context, this._extensionUri, allData);
-						vscode.window.showErrorMessage('更新しました。');
+						vscode.window.showInformationMessage('更新しました。');
 						break;
 					} else {
 						vscode.window.showErrorMessage('更新できませんでした。');
