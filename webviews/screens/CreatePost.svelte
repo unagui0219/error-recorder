@@ -15,7 +15,7 @@
         solutionCode: string;
         sourceCode: string;
         lang: string;
-        password_digest: any;
+        password: any;
         id: number;
     };
 
@@ -34,8 +34,8 @@
         // request body
         const postErrorData: PostDataObject = {
             error_title: errorTitle,
-            solution_code: errorSourceCode,
-            source_code: errorSolutionCode,
+            source_code: errorSourceCode,
+            solution_code: errorSolutionCode,
             lang: lang,
         };
 
@@ -49,7 +49,7 @@
             solutionCode: errorSourceCode,
             sourceCode: errorSolutionCode,
             lang: lang,
-            password_digest: resUniqueData[1],
+            password: resUniqueData[1],
             id: resUniqueData[0],
         };
 
@@ -70,8 +70,8 @@
                 .then(res => {
                     const uniqueData: any[] = [];
                     let id = res.data["data"]["post"]["id"];
-                    let password_digest = res.data["data"]["post"]["password_digest"];
-                    uniqueData.push(id, password_digest);
+                    let password = res.data["data"]["pass"];
+                    uniqueData.push(id, password);
                     resolve(uniqueData);
                 })
                 .catch(err => {

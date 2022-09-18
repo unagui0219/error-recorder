@@ -108,7 +108,7 @@ export class ViewIndexPanel {
                 }
                 case "editPost": {
                     const oneData = [data.value, this._context.globalState.get(data.value)];
-                    ViewEditPanel.createOrShow(this._extensionUri, oneData);
+                    ViewEditPanel.createOrShow(this._extensionUri, oneData, this._context);
                     break;
                 }
                 case "removePost": {

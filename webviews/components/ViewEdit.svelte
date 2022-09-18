@@ -11,7 +11,7 @@
 		lang: string;
   };
 
-	const putUrl: string = `http://localhost:3000/api/v1/post/${post.id}`;
+	const putUrl: string = `http://localhost:3000/api/v1/posts/${post.id}`;
 	let isSubmitting = false;
 	let errorTitle: string;
 	let errorSourceCode: string;
@@ -30,21 +30,16 @@
 			lang: lang,
 		};
 
-		console.log(putErrorData);
-
 		if (online) {
 			axios.put(putUrl, putErrorData, {
 				params: {
-					password: post.passwordDigest,
+					password: post.password,
 				}
 			})
 			.then(res => {
 				console.log(res);
-				console.log('status: 200 OK');
-				// alert(`${errorTitle}を更新しました`);
 			})
 			.catch(err => {
-				// alert(`${errorTitle}の更新に失敗しました`);
 				console.log(err);
 			});
 		};

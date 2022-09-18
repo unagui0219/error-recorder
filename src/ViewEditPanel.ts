@@ -7,7 +7,7 @@ type PostObj = {
 	solutionCode: string;
 	sourceCode: string;
 	lang: string;
-	passwordDigest: string;
+	password: string;
 	id: number;
 };
 
@@ -26,7 +26,6 @@ export class ViewEditPanel {
 	private readonly _postData: OnePostObj;
 	private readonly _context: vscode.ExtensionContext;
 	private _disposables: vscode.Disposable[] = [];
-	private _states: vscode.Memento & { setKeysForSync(keys: readonly string[]): void; };
 
 	public static createOrShow(extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
 		const column = vscode.window.activeTextEditor
@@ -74,8 +73,6 @@ export class ViewEditPanel {
 		this._extensionUri = extensionUri;
 		this._postData = postData;
 		this._context = context;
-		// this._states = new SidebarProvider(this._extensionUri, context).state;
-		// this._states = this._context.globalState;
 
 		// Set the webview's initial html content
 		this._update();
@@ -111,13 +108,13 @@ export class ViewEditPanel {
 						return;
 					};
 					const id = data.postKey;
-					console.log(`id: ${id}`);
-					this._states.update(id, data.value);
-					const updatePost = this._states.get(id);
+					this._context.globalState.update(id, data.value);
+					const updatePost = this._context.globalState.get(id);
 					if (updatePost) {
 						ViewIndexPanel.kill();
-            const allData = this._states._value || "none";
+            const allData = this._context.globalState._value || "none";
 						ViewIndexPanel.createOrShow(this._context, this._extensionUri, allData);
+						vscode.window.showErrorMessage('更新しました。');
 						break;
 					} else {
 						vscode.window.showErrorMessage('更新できませんでした。');
