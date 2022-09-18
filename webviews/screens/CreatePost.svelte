@@ -15,6 +15,8 @@
         solutionCode: string;
         sourceCode: string;
         lang: string;
+        password: any;
+        id: number;
     };
 
     const postUrl: string = "http://localhost:3000/api/v1/posts";
@@ -27,45 +29,56 @@
 
     export const handleSubmit = async () => {
         isSubmitting = true;
+        let resUniqueData: any = [];
 
         // request body
         const postErrorData: PostDataObject = {
             error_title: errorTitle,
-            solution_code: errorSourceCode,
-            source_code: errorSolutionCode,
+            source_code: errorSourceCode,
+            solution_code: errorSolutionCode,
             lang: lang,
         };
+
+        if (online) {
+            let axiosData = await get_uniqueData(postUrl, postErrorData);
+            resUniqueData = axiosData;
+        };
+
         const PostLocalDataObject: PostLocalDataObject = {
             title: errorTitle,
             solutionCode: errorSourceCode,
             sourceCode: errorSolutionCode,
             lang: lang,
+            password: resUniqueData[1],
+            id: resUniqueData[0],
         };
 
-        if (online) {
-            postAxios(postUrl, postErrorData);
-            setTimeout(() => {
-                isSubmitting = false;
-            }, 1000);
-        }
         await tsvscode.postMessage({
             type: "savePost",
             value: PostLocalDataObject,
         });
-        isSubmitting = false;
+        setTimeout(() => {
+            isSubmitting = false;
+        }, 1000);
         toSearch();
     };
 
-    function postAxios(url: string, obj: PostDataObject) {
-        axios
-            .post(url, obj)
-            .then((res) => {
-                return res;
-            })
-            .catch((err) => {
-                console.log("err:", err);
-            });
-    }
+    function get_uniqueData(url: string, obj: PostDataObject) {
+        return new Promise((resolve, reject) => {
+            axios
+                .post(url, obj)
+                .then(res => {
+                    const uniqueData: any[] = [];
+                    let id = res.data["data"]["post"]["id"];
+                    let password = res.data["data"]["pass"];
+                    uniqueData.push(id, password);
+                    resolve(uniqueData);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    };
 </script>
 
 <div>

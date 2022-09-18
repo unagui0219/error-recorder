@@ -1,5 +1,10 @@
 <script lang="ts">
+	let postKey = postOneData[0];
 	let post = postOneData[1];
+
+	const toEdit = async (i: any) => {
+		await tsvscode.postMessage({ type: "editPost", value: i });
+  };
 </script>
 
 <div class="page-box">
@@ -13,7 +18,7 @@
 		</div>
 		<div class="btn-box_cover">
 			<div class="btn-box">
-				<button>編集</button>
+				<button on:click={() => toEdit(postKey)}>編集</button>
 				<button class="delete-btn">削除</button>
 			</div>
 		</div>

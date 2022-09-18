@@ -1,22 +1,25 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
-import { ViewEditPanel } from "./ViewEditPanel";
+import { ViewIndexPanel } from "./ViewIndexPanel";
+import { SidebarProvider } from "./SidebarProvider";
 type PostObj = {
 	title: string;
 	solutionCode: string;
 	sourceCode: string;
 	lang: string;
+	password: string;
+	id: number;
 };
 
 type OnePostObj = [string, PostObj];
 
-export class ViewShowPanel {
+export class ViewEditPanel {
 	/**
 	 * Track the currently panel. Only allow a single panel to exist at a time.
 	 */
-	public static currentPanel: ViewShowPanel | undefined;
+	public static currentPanel: ViewEditPanel | undefined;
 
-	public static readonly viewType = "show";
+	public static readonly viewType = "edit";
 
 	private readonly _panel: vscode.WebviewPanel;
 	private readonly _extensionUri: vscode.Uri;
@@ -30,16 +33,16 @@ export class ViewShowPanel {
 			: undefined;
 
 		// If we already have a panel, show it.
-		if (ViewShowPanel.currentPanel) {
-			ViewShowPanel.currentPanel._panel.reveal(column);
-			ViewShowPanel.currentPanel._update();
+		if (ViewEditPanel.currentPanel) {
+			ViewEditPanel.currentPanel._panel.reveal(column);
+			ViewEditPanel.currentPanel._update();
 			return;
 		}
 
 		// Otherwise, create a new panel.
 		const panel = vscode.window.createWebviewPanel(
-			ViewShowPanel.viewType,
-			"投稿詳細：Error Recorder",
+			ViewEditPanel.viewType,
+			"ポスト一覧：Error Recorder",
 			column || vscode.ViewColumn.One,
 			{
 				// Enable javascript in the webview
@@ -53,16 +56,16 @@ export class ViewShowPanel {
 			}
 		);
 
-		ViewShowPanel.currentPanel = new ViewShowPanel(panel, extensionUri, postData, context);
+		ViewEditPanel.currentPanel = new ViewEditPanel(panel, extensionUri, postData, context);
 	}
 
 	public static kill() {
-		ViewShowPanel.currentPanel?.dispose();
-		ViewShowPanel.currentPanel = undefined;
+		ViewEditPanel.currentPanel?.dispose();
+		ViewEditPanel.currentPanel = undefined;
 	}
 
 	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
-		ViewShowPanel.currentPanel = new ViewShowPanel(panel, extensionUri, postData, context);
+		ViewEditPanel.currentPanel = new ViewEditPanel(panel, extensionUri, postData, context);
 	}
 
 	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, postData: OnePostObj, context: vscode.ExtensionContext) {
@@ -81,7 +84,7 @@ export class ViewShowPanel {
 	}
 
 	public dispose() {
-		ViewShowPanel.currentPanel = undefined;
+		ViewEditPanel.currentPanel = undefined;
 
 		// Clean up our resources
 		this._panel.dispose();
@@ -100,10 +103,22 @@ export class ViewShowPanel {
 		this._panel.webview.html = this._getHtmlForWebview(webview);
 		webview.onDidReceiveMessage(async (data) => {
 			switch (data.type) {
-				case "editPost": {
-					const oneData = [data.value, this._context.globalState.get(data.value)];
-					ViewEditPanel.createOrShow(this._extensionUri, oneData, this._context);
-					break;
+				case "updatePost": {
+					if (!data.value) {
+						return;
+					};
+					const id = data.postKey;
+					this._context.globalState.update(id, data.value);
+					const updatePost = this._context.globalState.get(id);
+					if (updatePost) {
+						ViewIndexPanel.kill();
+            const allData = this._context.globalState._value || "none";
+						ViewIndexPanel.createOrShow(this._context, this._extensionUri, allData);
+						vscode.window.showInformationMessage('更新しました。');
+						break;
+					} else {
+						vscode.window.showErrorMessage('更新できませんでした。');
+					};
 				}
 				case "onInfo": {
 					if (!data.value) {
@@ -127,9 +142,8 @@ export class ViewShowPanel {
 	private _getHtmlForWebview(webview: vscode.Webview) {
 		// // And the uri we use to load this script in the webview
 		const scriptUri = webview.asWebviewUri(
-			vscode.Uri.joinPath(this._extensionUri, "out/compiled", "ViewShow.js")
+			vscode.Uri.joinPath(this._extensionUri, "out/compiled", "ViewEdit.js")
 		);
-
 
 		// Uri to load styles into webview
 		const stylesResetUri = webview.asWebviewUri(vscode.Uri.joinPath(

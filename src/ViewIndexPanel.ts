@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { getNonce } from "./getNonce";
 import { ViewShowPanel } from "./ViewShowPanel";
+import { ViewEditPanel } from "./ViewEditPanel";
 type PostObj = {
     title: string;
     solutionCode: string;
@@ -101,8 +102,12 @@ export class ViewIndexPanel {
             switch (data.type) {
                 case "showPost": {
                     const oneData = [data.value, this._context.globalState.get(data.value)];
-                    console.log(oneData);
-                    ViewShowPanel.createOrShow(this._extensionUri, oneData);
+                    ViewShowPanel.createOrShow(this._extensionUri, oneData, this._context);
+                    break;
+                }
+                case "editPost": {
+                    const oneData = [data.value, this._context.globalState.get(data.value)];
+                    ViewEditPanel.createOrShow(this._extensionUri, oneData, this._context);
                     break;
                 }
                 case "removePost": {
