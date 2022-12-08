@@ -1,71 +1,31 @@
-# error-recorder README
+### 技育展2022 開発/スキル支援
+## VSCode extension 「Error Recorder」
 
-This is the README for your extension "error-recorder". After writing up a brief description, we recommend including the following sections.
+![ErrorRecorder](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2420747/fa3f41ba-90fe-582a-589b-a3ed5eb35589.jpeg)
 
-## Features
+## Product Overview
+自分が開発をしている際に起こしたエラーを素早く簡単に記録して、必要な時にすぐ取り出せるVSCodeの拡張機能です。 また、プラットフォームにして記録を他のプログラマーに共有することもできます。
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Background of Production
+「またこのエラーか」とか「なんだっけこのエラー？」といったエラー解決に必要以上に時間を取られる経験から、エラーを記録して素早く解決方法を発見できるようしたいと思ったからです。
 
-For example if there is an image subfolder under your extension project workspace:
+## User Issues
+以前に同じエラーが出た経験があるが、解決方法を忘れてしまう。
 
-\!\[feature X\]\(images/feature-x.png\)
+## Features and Strengths
+- VScodeの拡張機能であるという点です。エラーの発生、検索、修正、解決をという流れをVScode内で完結させることができます。
+- エラー文や改善前のコード、改善後のコードを手軽に保存できます。
+- メモ感覚で簡単に投稿できます。
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+## Technologies
+### API
+- VSCode EXtension API
+### Web
+- Nuxt.js
+- Ruby on Rails
+### Editor
+-  Svelte.js, TypeScript
+-  TypeScript
+### Infrastructures
+- PostgreSQL
+- Docker
