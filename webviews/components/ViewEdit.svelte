@@ -1,8 +1,8 @@
 <script lang="ts">
 	import axios from "axios";
+	export let toSearch: () => void;
 	let postkey = postOneData[0];
 	let post = postOneData[1];
-	export let toSearch: () => void;
 
 	type PutDataObject = {
 		error_title: string;
@@ -24,7 +24,7 @@
 	let errorSourceCode: string;
 	let errorSolutionCode: string;
 	let lang: string;
-  let online = true;
+	let online = true;
 	
 	errorTitle = post.title;
 	errorSourceCode = post.sourceCode;
