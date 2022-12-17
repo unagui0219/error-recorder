@@ -12,8 +12,7 @@
   "activationEvents": [
     "onView:errorRecorderSidebar",
     "onCommand:error-recorder.index",
-    "onCommand:error-recorder.postError",
-    "onCommand:error-recorder.saveStorage"
+    "onCommand:error-recorder.postError"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -41,10 +40,6 @@
       {
         "command": "error-recorder.errorRecorder",
         "title": "errorRecorder"
-      },
-      {
-        "command": "error-recorder.saveStorage",
-        "title": "saveStorage"
       }
     ],
     "keybindings": [
