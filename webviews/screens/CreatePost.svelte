@@ -1,19 +1,8 @@
 <script lang="ts">
     import PageTitle from "../ui/PageTitle.svelte";
     import axios from "axios";
+    import type { PostData, LocalDataObj } from "../common/types";
     export let toSearch: () => void;
-
-    interface PostData {
-        errorTitle: string;
-        solutionCode: string;
-        sourceCode: string;
-        lang: string;
-    };
-
-    interface LocalDataObj extends PostData {
-        password: any;
-        id: number;
-    };
 
     const postUrl: string = "http://localhost:3000/api/v1/posts";
     let isSubmitting: boolean = false;
