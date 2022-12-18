@@ -47,7 +47,7 @@
             resUniqueData = axiosData;
         };
 
-        const PostLocalData: LocalDataObj = {
+        const postLocalData: LocalDataObj = {
             title: errorTitle,
             solutionCode: errorSourceCode,
             sourceCode: errorSolutionCode,
@@ -58,7 +58,7 @@
 
         await tsvscode.postMessage({
             type: "savePost",
-            value: PostLocalData,
+            value: postLocalData,
         });
         setTimeout(() => {
             isSubmitting = false;
