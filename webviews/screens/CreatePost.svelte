@@ -4,13 +4,6 @@
     export let toSearch: () => void;
 
     interface PostData {
-        title: string;
-        solutionCode: string;
-        sourceCode: string;
-        lang: string;
-    };
-
-    interface OnlineDataObj {
         errorTitle: string;
         solutionCode: string;
         sourceCode: string;
@@ -35,7 +28,7 @@
         let resUniqueData: any = [];
 
         // request body
-        const postOnlineData: OnlineDataObj = {
+        const postOnlineData: PostData = {
             errorTitle: errorTitle,
             sourceCode: errorSourceCode,
             solutionCode: errorSolutionCode,
@@ -48,7 +41,7 @@
         };
 
         const postLocalData: LocalDataObj = {
-            title: errorTitle,
+            errorTitle: errorTitle,
             solutionCode: errorSourceCode,
             sourceCode: errorSolutionCode,
             lang: lang,
@@ -66,7 +59,7 @@
         toSearch();
     };
 
-    const getUniqueFromOnlineData = (url: string, obj: OnlineDataObj) => {
+    const getUniqueFromOnlineData = (url: string, obj: PostData) => {
         return new Promise((resolve, reject) => {
             axios
                 .post(url, obj)
