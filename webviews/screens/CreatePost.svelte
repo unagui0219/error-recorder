@@ -3,18 +3,21 @@
     import axios from "axios";
     export let toSearch: () => void;
 
-    type PostDataObject = {
-        error_title: string;
-        solution_code: string;
-        source_code: string;
-        lang: string;
-    };
-
-    type PostLocalDataObject = {
+    interface PostData {
         title: string;
         solutionCode: string;
         sourceCode: string;
         lang: string;
+    };
+
+    interface PostOnlineData {
+        errorTitle: string;
+        solutionCode: string;
+        sourceCode: string;
+        lang: string;
+    };
+
+    interface PostLocalData extends PostData {
         password: any;
         id: number;
     };
@@ -32,19 +35,19 @@
         let resUniqueData: any = [];
 
         // request body
-        const postErrorData: PostDataObject = {
-            error_title: errorTitle,
-            source_code: errorSourceCode,
-            solution_code: errorSolutionCode,
+        const postErrorData: PostData = {
+            title: errorTitle,
+            sourceCode: errorSourceCode,
+            solutionCode: errorSolutionCode,
             lang: lang,
         };
 
         if (online) {
-            let axiosData = await get_uniqueData(postUrl, postErrorData);
+            let axiosData = await getUniqueData(postUrl, postErrorData);
             resUniqueData = axiosData;
         };
 
-        const PostLocalDataObject: PostLocalDataObject = {
+        const PostLocalDataObject: PostLocalData = {
             title: errorTitle,
             solutionCode: errorSourceCode,
             sourceCode: errorSolutionCode,
@@ -63,7 +66,7 @@
         toSearch();
     };
 
-    function get_uniqueData(url: string, obj: PostDataObject) {
+    function getUniqueData(url: string, obj: PostDataObject) {
         return new Promise((resolve, reject) => {
             axios
                 .post(url, obj)
