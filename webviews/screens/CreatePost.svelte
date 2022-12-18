@@ -10,44 +10,44 @@
         lang: string;
     };
 
-    interface PostOnlineData {
+    interface OnlineDataObj {
         errorTitle: string;
         solutionCode: string;
         sourceCode: string;
         lang: string;
     };
 
-    interface PostLocalData extends PostData {
+    interface LocalDataObj extends PostData {
         password: any;
         id: number;
     };
 
     const postUrl: string = "http://localhost:3000/api/v1/posts";
-    let isSubmitting = false;
+    let isSubmitting: boolean = false;
+    let online: boolean = true;
     let errorTitle: string;
     let errorSourceCode: string;
     let errorSolutionCode: string;
     let lang: string;
-    let online = true;
 
     export const handleSubmit = async () => {
         isSubmitting = true;
         let resUniqueData: any = [];
 
         // request body
-        const postErrorData: PostData = {
-            title: errorTitle,
+        const postOnlineData: OnlineDataObj = {
+            errorTitle: errorTitle,
             sourceCode: errorSourceCode,
             solutionCode: errorSolutionCode,
             lang: lang,
         };
 
         if (online) {
-            let axiosData = await getUniqueData(postUrl, postErrorData);
+            let axiosData = await getUniqueFromOnlineData(postUrl, postOnlineData);
             resUniqueData = axiosData;
         };
 
-        const PostLocalDataObject: PostLocalData = {
+        const PostLocalData: LocalDataObj = {
             title: errorTitle,
             solutionCode: errorSourceCode,
             sourceCode: errorSolutionCode,
@@ -58,7 +58,7 @@
 
         await tsvscode.postMessage({
             type: "savePost",
-            value: PostLocalDataObject,
+            value: PostLocalData,
         });
         setTimeout(() => {
             isSubmitting = false;
@@ -66,7 +66,7 @@
         toSearch();
     };
 
-    function getUniqueData(url: string, obj: PostDataObject) {
+    const getUniqueFromOnlineData = (url: string, obj: OnlineDataObj) => {
         return new Promise((resolve, reject) => {
             axios
                 .post(url, obj)
