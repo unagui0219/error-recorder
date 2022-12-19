@@ -1,21 +1,11 @@
 import * as vscode from 'vscode';
 import { SidebarProvider } from "./SidebarProvider";
-import { ViewIndexPanel } from './ViewIndexPanel';
-import { saveStorage } from './globalState';
 
 // commands
-export const extensionCommandId: string = 'error-recorder.errorRecorder';
-export const saveStorageCommandId: string = 'error-recorder.saveStorage';
-export const indexWebviewCommandId: string = 'error-recorder.index';
-export const sidebarCommandId: string = 'errorRecorderSidebar';
+const extensionCommandId: string = 'error-recorder.errorRecorder';
+const sidebarCommandId: string = 'errorRecorderSidebar';
 
 export function activate(context: vscode.ExtensionContext) {
-
-	context.subscriptions.push(
-		vscode.commands.registerCommand(
-			saveStorageCommandId, () => saveStorage(context)
-		)
-	);
 
 	// SideBar
 	const sidebarProvider = new SidebarProvider(context.extensionUri, context);

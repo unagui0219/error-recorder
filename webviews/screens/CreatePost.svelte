@@ -1,51 +1,36 @@
 <script lang="ts">
     import PageTitle from "../ui/PageTitle.svelte";
     import axios from "axios";
+    import type { PostData, LocalDataObj } from "../common/types";
     export let toSearch: () => void;
 
-    type PostDataObject = {
-        error_title: string;
-        solution_code: string;
-        source_code: string;
-        lang: string;
-    };
-
-    type PostLocalDataObject = {
-        title: string;
-        solutionCode: string;
-        sourceCode: string;
-        lang: string;
-        password: any;
-        id: number;
-    };
-
     const postUrl: string = "http://localhost:3000/api/v1/posts";
-    let isSubmitting = false;
+    let isSubmitting: boolean = false;
+    let online: boolean = true;
     let errorTitle: string;
     let errorSourceCode: string;
     let errorSolutionCode: string;
     let lang: string;
-    let online = true;
 
     export const handleSubmit = async () => {
         isSubmitting = true;
         let resUniqueData: any = [];
 
         // request body
-        const postErrorData: PostDataObject = {
-            error_title: errorTitle,
-            source_code: errorSourceCode,
-            solution_code: errorSolutionCode,
+        const postOnlineData: PostData = {
+            errorTitle: errorTitle,
+            sourceCode: errorSourceCode,
+            solutionCode: errorSolutionCode,
             lang: lang,
         };
 
         if (online) {
-            let axiosData = await get_uniqueData(postUrl, postErrorData);
+            let axiosData = await getUniqueFromOnlineData(postUrl, postOnlineData);
             resUniqueData = axiosData;
         };
 
-        const PostLocalDataObject: PostLocalDataObject = {
-            title: errorTitle,
+        const postLocalData: LocalDataObj = {
+            errorTitle: errorTitle,
             solutionCode: errorSourceCode,
             sourceCode: errorSolutionCode,
             lang: lang,
@@ -55,7 +40,7 @@
 
         await tsvscode.postMessage({
             type: "savePost",
-            value: PostLocalDataObject,
+            value: postLocalData,
         });
         setTimeout(() => {
             isSubmitting = false;
@@ -63,7 +48,7 @@
         toSearch();
     };
 
-    function get_uniqueData(url: string, obj: PostDataObject) {
+    const getUniqueFromOnlineData = (url: string, obj: PostData) => {
         return new Promise((resolve, reject) => {
             axios
                 .post(url, obj)

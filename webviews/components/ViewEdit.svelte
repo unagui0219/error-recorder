@@ -1,30 +1,19 @@
 <script lang="ts">
 	import axios from "axios";
+	import type { PostData } from "../common/types";
+	export let toSearch: () => void;
 	let postkey = postOneData[0];
 	let post = postOneData[1];
-	export let toSearch: () => void;
 
-	type PutDataObject = {
-		error_title: string;
-		solution_code: string;
-		source_code: string;
-		lang: string;
-  };
-
-	type PutLocalDataObject = {
-		title: string;
-		solutionCode: string;
-		sourceCode: string;
-		lang: string;
-  };
+	interface PutLocalData extends PostData {};
 
 	const putUrl: string = `http://localhost:3000/api/v1/posts/${post.id}`;
-	let isSubmitting = false;
+	let isSubmitting: boolean = false;
+	let online: boolean = true;
 	let errorTitle: string;
 	let errorSourceCode: string;
 	let errorSolutionCode: string;
 	let lang: string;
-  let online = true;
 	
 	errorTitle = post.title;
 	errorSourceCode = post.sourceCode;
@@ -35,10 +24,10 @@
 		isSubmitting = true;
 
 		// request body
-		const putErrorData: PutDataObject = {
-			error_title: errorTitle,
-			solution_code: errorSourceCode,
-			source_code: errorSolutionCode,
+		const putErrorData: PostData = {
+			errorTitle: errorTitle,
+			solutionCode: errorSourceCode,
+			sourceCode: errorSolutionCode,
 			lang: lang,
 		};
 
@@ -56,8 +45,8 @@
 			});
 		};
 
-		const PutLocalDataObject: PutLocalDataObject = {
-			title: errorTitle,
+		const PutLocalDataObject: PutLocalData = {
+			errorTitle: errorTitle,
 			solutionCode: errorSourceCode,
 			sourceCode: errorSolutionCode,
 			lang: lang,
